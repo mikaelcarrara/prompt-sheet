@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PromptSheet.dev - Governança de IA por Proximidade</title>
+    <title>Documentação - PromptSheet.dev</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -24,30 +24,10 @@
             background-clip: text;
         }
         
-        .hero-gradient {
-            background: linear-gradient(135deg, #1e40af 0%, #7c3aed 100%);
-        }
-        
-        .card-hover {
-            transition: all 0.2s ease;
-            border: 1px solid #e5e7eb;
-        }
-        
-        .card-hover:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            border-color: #9333ea;
-        }
-        
         .code-block {
             background: #0f172a;
             border: 1px solid #334155;
             border-left: 4px solid #7c3aed;
-        }
-        
-        .spec-section {
-            background: #fafafa;
-            border-left: 3px solid #7c3aed;
         }
         
         .badge {
@@ -62,6 +42,28 @@
             background: #7c3aed;
             color: white;
             border: 1px solid #7c3aed;
+        }
+        
+        .sidebar {
+            position: sticky;
+            top: 5rem;
+            height: calc(100vh - 5rem);
+            overflow-y: auto;
+        }
+        
+        .nav-link {
+            transition: all 0.2s ease;
+        }
+        
+        .nav-link:hover {
+            background: #f3f4f6;
+            color: #7c3aed;
+        }
+        
+        .nav-link.active {
+            background: #ede9fe;
+            color: #7c3aed;
+            border-left: 3px solid #7c3aed;
         }
     </style>
 </head>
