@@ -1,0 +1,19 @@
+# Global Prompt
+[component: global]
+[context: all-components]
+
+@governance
+- tone: "profissional e amigável"
+- language: "pt-BR"
+- restricted-terms: ["click aqui", "clique aqui", "free", "grátis"]
+- accessibility-check: "sempre validar WCAG 2.1"
+
+@style-constraints
+- css-framework: "tailwindcss"
+- color-scheme: "consistente com marca"
+- responsive-design: "mobile-first"
+
+@code-quality
+- use-typescript: true
+- eslint-config: "strict"
+- test-coverage: "mínimo 80%"

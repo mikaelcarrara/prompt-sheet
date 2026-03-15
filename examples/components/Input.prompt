@@ -1,0 +1,18 @@
+# Input.prompt
+[component: text-input]
+[context: form-validation]
+
+@governance
+- tone: "informativo e claro"
+- placeholder-style: "exemplo: joão@exemplo.com"
+- error-messages: "específicas e construtivas"
+
+@validation
+- required-indicator: "asterisco vermelho"
+- real-time-validation: true
+- debounce-ms: 300
+
+@accessibility
+- label-required: true
+- aria-describedby: "para ajuda e erro"
+- focus-management: "visible focus ring"
