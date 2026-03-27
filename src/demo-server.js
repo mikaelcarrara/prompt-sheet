@@ -1,12 +1,13 @@
 const express = require('express');
 const path = require('path');
+const http = require('http');
 const PromptResolver = require('./prompt-resolver');
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
 const resolver = new PromptResolver(__dirname);
 
-app.use(express.static('public'));
+app.use(express.static('public', { index: false }));
 app.use(express.json());
 
 // API para gerar prompt com governança
@@ -56,17 +57,41 @@ app.get('/api/prompts/:filePath?', async (req, res) => {
 
 // Servir página principal (landing page)
 app.get('/', (req, res) => {
-    const landingPath = path.join(__dirname, '..', 'public', 'landing.html');
-    console.log('Servindo landing page:', landingPath);
-    res.sendFile(landingPath);
+    const homePath = path.join(__dirname, '..', 'index.html');
+    console.log('Servindo home page:', homePath);
+    res.sendFile(homePath);
 });
 
-// Servir demo como página secundária
-app.get('/demo', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
+// Alias explícito para index.html
+app.get('/index.html', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'index.html'));
 });
 
-app.listen(port, () => {
-    console.log(`🚀 PromptSheet.dev Demo Server rodando em http://localhost:${port}`);
-    console.log('📁 Diretório raiz:', __dirname);
+app.get('/docs.html', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'docs.html'));
 });
+
+app.get('/docs', (req, res) => {
+    res.redirect('/docs.html');
+});
+
+function startServer(initialPort) {
+    let p = initialPort;
+    function attempt() {
+        const server = http.createServer(app);
+        server.on('error', (err) => {
+            if (err.code === 'EADDRINUSE') {
+                p += 1;
+                attempt();
+            } else {
+                throw err;
+            }
+        });
+        server.listen(p, () => {
+            console.log(`🚀 PromptSheet.dev Demo Server rodando em http://localhost:${p}`);
+            console.log('📁 Diretório raiz:', __dirname);
+        });
+    }
+    attempt();
+}
+startServer(port);

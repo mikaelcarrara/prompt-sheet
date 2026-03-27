@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PromptSheet.dev - Governança de IA por Proximidade</title>
+    <title>Documentação - PromptSheet.dev</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -24,30 +24,10 @@
             background-clip: text;
         }
         
-        .hero-gradient {
-            background: linear-gradient(135deg, #1e40af 0%, #7c3aed 100%);
-        }
-        
-        .card-hover {
-            transition: all 0.2s ease;
-            border: 1px solid #e5e7eb;
-        }
-        
-        .card-hover:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            border-color: #9333ea;
-        }
-        
         .code-block {
             background: #0f172a;
             border: 1px solid #334155;
             border-left: 4px solid #7c3aed;
-        }
-        
-        .spec-section {
-            background: #fafafa;
-            border-left: 3px solid #7c3aed;
         }
         
         .badge {
@@ -63,6 +43,28 @@
             color: white;
             border: 1px solid #7c3aed;
         }
+        
+        .sidebar {
+            position: sticky;
+            top: 5rem;
+            height: calc(100vh - 5rem);
+            overflow-y: auto;
+        }
+        
+        .nav-link {
+            transition: all 0.2s ease;
+        }
+        
+        .nav-link:hover {
+            background: #f3f4f6;
+            color: #7c3aed;
+        }
+        
+        .nav-link.active {
+            background: #ede9fe;
+            color: #7c3aed;
+            border-left: 3px solid #7c3aed;
+        }
     </style>
 </head>
 <body class="bg-gray-50">
@@ -70,7 +72,7 @@
     <header class="fixed top-0 w-full bg-white border-b z-50">
         <nav class="container mx-auto px-6 py-4">
             <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-3">
+                <a href="/" class="flex items-center space-x-3">
                     <div class="w-8 h-8 bg-gray-900 rounded flex items-center justify-center">
                         <span class="text-white text-sm font-bold mono">PS</span>
                     </div>
@@ -78,13 +80,13 @@
                         <h1 class="text-lg font-semibold text-gray-900">PromptSheet.dev</h1>
                         <p class="text-xs text-gray-500 mono">CPS v1.0.0</p>
                     </div>
-                </div>
+                </a>
                 
                 <div class="hidden md:flex items-center space-x-6">
                     <a href="#especificacao" class="text-sm text-gray-600 hover:text-gray-900 font-medium">Especificação</a>
                     <a href="#implementacao" class="text-sm text-gray-600 hover:text-gray-900 font-medium">Implementação</a>
                     <a href="#referencia" class="text-sm text-gray-600 hover:text-gray-900 font-medium">Referência</a>
-                    <a href="https://github.com/promptsheet-dev/core" class="text-sm text-gray-600 hover:text-gray-900 font-medium">GitHub</a>
+                    <a href="https://github.com/mikaelcarrara/prompt-sheet" class="text-sm text-gray-600 hover:text-gray-900 font-medium">GitHub</a>
                 </div>
                 
                 <div class="flex items-center space-x-3">
@@ -142,7 +144,7 @@
                         <i class="fas fa-code"></i>
                         <span>Ver Implementação</span>
                     </a>
-                    <a href="https://github.com/promptsheet-dev/spec" class="border border-gray-300 text-gray-700 px-6 py-3 rounded-lg font-medium hover:bg-gray-50 transition-colors">
+                    <a href="https://github.com/mikaelcarrara/prompt-sheet" class="border border-gray-300 text-gray-700 px-6 py-3 rounded-lg font-medium hover:bg-gray-50 transition-colors">
                         <i class="fab fa-github mr-2"></i>
                         GitHub Repository
                     </a>
@@ -326,7 +328,7 @@
                             </li>
                             <li class="flex items-center justify-between">
                                 <span class="text-sm text-gray-600">Reference Implementation</span>
-                                <a href="https://github.com/promptsheet-dev/core" class="text-blue-600 hover:text-blue-700 text-sm">GitHub</a>
+                                <a href="https://github.com/mikaelcarrara/prompt-sheet" class="text-blue-600 hover:text-blue-700 text-sm">GitHub</a>
                             </li>
                             <li class="flex items-center justify-between">
                                 <span class="text-sm text-gray-600">Type Definitions</span>
@@ -383,7 +385,7 @@ tone: professional"</span> > Button.prompt
                             <p>MIT License • Open Source • Community Driven</p>
                         </div>
                         <div class="flex items-center space-x-4">
-                            <a href="https://github.com/promptsheet-dev" class="text-gray-400 hover:text-white">
+                            <a href="https://github.com/mikaelcarrara/prompt-sheet" class="text-gray-400 hover:text-white">
                                 <i class="fab fa-github text-xl"></i>
                             </a>
                             <a href="#" class="text-gray-400 hover:text-white">
@@ -399,63 +401,6 @@ tone: professional"</span> > Button.prompt
         </div>
     </section>
 
-    <!-- Benefits -->
-    <section id="beneficios" class="py-20 bg-gray-50">
-        <div class="container mx-auto px-6">
-            <div class="max-w-6xl mx-auto">
-                <div class="text-center mb-12">
-                    <h2 class="text-4xl font-bold text-gray-900 mb-4">
-                        Benefícios <span class="gradient-text">Imediatos</span>
-                    </h2>
-                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-                        Transforme sua produtividade com IA governada
-                    </p>
-                </div>
-                
-                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div class="card-hover bg-white rounded-xl p-6 text-center">
-                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i class="fas fa-rocket text-blue-600 text-2xl"></i>
-                        </div>
-                        <h3 class="font-semibold text-gray-900 mb-2">10x Mais Rápido</h3>
-                        <p class="text-sm text-gray-600">
-                            Menos refinamento, mais produção
-                        </p>
-                    </div>
-                    
-                    <div class="card-hover bg-white rounded-xl p-6 text-center">
-                        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i class="fas fa-shield-alt text-green-600 text-2xl"></i>
-                        </div>
-                        <h3 class="font-semibold text-gray-900 mb-2">100% Seguro</h3>
-                        <p class="text-sm text-gray-600">
-                            Sem termos ou comportamentos indesejados
-                        </p>
-                    </div>
-                    
-                    <div class="card-hover bg-white rounded-xl p-6 text-center">
-                        <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i class="fas fa-users text-purple-600 text-2xl"></i>
-                        </div>
-                        <h3 class="font-semibold text-gray-900 mb-2">Equipe Alinhada</h3>
-                        <p class="text-sm text-gray-600">
-                            Todos seguem os mesmos padrões
-                        </p>
-                    </div>
-                    
-                    <div class="card-hover bg-white rounded-xl p-6 text-center">
-                        <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i class="fas fa-sync text-orange-600 text-2xl"></i>
-                        </div>
-                        <h3 class="font-semibold text-gray-900 mb-2">Manutenível</h3>
-                        <p class="text-sm text-gray-600">
-                            Atualize regras uma vez, impacte tudo
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- Footer -->
     <footer class="bg-gray-900 text-gray-300 py-8 border-t border-gray-800">
@@ -472,7 +417,7 @@ tone: professional"</span> > Button.prompt
                 </div>
                 
                 <div class="flex items-center space-x-6 text-sm">
-                    <a href="https://github.com/promptsheet-dev" class="text-gray-400 hover:text-white transition-colors">
+                    <a href="https://github.com/mikaelcarrara/prompt-sheet" class="text-gray-400 hover:text-white transition-colors">
                         <i class="fab fa-github mr-2"></i>GitHub
                     </a>
                     <a href="#" class="text-gray-400 hover:text-white transition-colors">
