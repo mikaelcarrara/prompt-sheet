@@ -3,14 +3,14 @@
 [context: e-commerce-checkout]
 
 @governance
-- tone: "urgente e direto"
-- restricted-terms: ["barato", "grátis", "clique aqui"]
-- allowed-actions: ["comprar", "adicionar ao carrinho", "finalizar"]
-- accessibility-check: "sempre validar aria-label"
+- tone: "urgent and direct"
+- restricted-terms: ["cheap", "free", "click here"]
+- allowed-actions: ["buy", "add to cart", "checkout"]
+- accessibility-check: "always validate aria-label"
 
 @logic-constraints
 - max-characters: 30
-- dynamic-state: "se estado for 'loading', exibir spinner"
+- dynamic-state: "if state is 'loading', show spinner"
 - hover-effect: "subtle elevation increase"
 
 @styling

@@ -8,15 +8,15 @@ class PromptResolver {
     }
 
     /**
-     * Lê todos os arquivos .prompt na árvore de diretórios
+     * Reads all .prompt files in the directory tree
      */
     async loadPromptFiles(filePath) {
         const dir = this.getTargetDirectory(filePath);
         if (!fs.existsSync(dir) || !fs.statSync(dir).isDirectory()) {
-            throw new Error(`Diretório não encontrado para filePath "${filePath}": ${dir}`);
+            throw new Error(`Directory not found for filePath "${filePath}": ${dir}`);
         }
         
-        // Verificar cache primeiro
+        // Check cache first
         const cacheKey = dir;
         if (this.cache.has(cacheKey)) {
             return this.cache.get(cacheKey);
@@ -24,20 +24,20 @@ class PromptResolver {
 
         const prompts = [];
         
-        // Carregar prompts globais primeiro (herança)
+        // Load global prompts first (inheritance)
         await this.loadGlobalPrompts(dir, prompts);
         
-        // Carregar prompts locais (especificidade)
+        // Load local prompts (specificity)
         await this.loadLocalPrompts(dir, prompts);
         
-        // Cache do resultado
+        // Cache result
         this.cache.set(cacheKey, prompts);
         
         return prompts;
     }
 
     /**
-     * Carrega prompts globais da raiz para baixo (herança)
+     * Loads global prompts from root down (inheritance)
      */
     async loadGlobalPrompts(currentDir, prompts) {
         const files = this.getGlobalPromptFilePaths(currentDir);
@@ -48,7 +48,7 @@ class PromptResolver {
     }
 
     /**
-     * Carrega prompts locais do diretório atual
+     * Loads local prompts from the current directory
      */
     async loadLocalPrompts(dir, prompts) {
         const files = this.getLocalPromptFilePaths(dir);
@@ -60,7 +60,7 @@ class PromptResolver {
     }
 
     /**
-     * Parse do arquivo .prompt
+     * Parses a .prompt file
      */
     async parsePromptFile(filePath) {
         const content = fs.readFileSync(filePath, 'utf-8');
@@ -82,7 +82,7 @@ class PromptResolver {
             if (trimmed.startsWith('[component:')) {
                 const componentMatch = trimmed.match(/\[component:\s*(.+?)\s*\]/);
                 if (!componentMatch) {
-                    throw new Error(`Metadata [component] inválido em ${filePath}:${lineNumber}`);
+                    throw new Error(`Invalid [component] metadata at ${filePath}:${lineNumber}`);
                 }
                 if (currentPrompt) prompts.push(currentPrompt);
                 currentPrompt = {
@@ -94,11 +94,11 @@ class PromptResolver {
             
             if (trimmed.startsWith('[context:')) {
                 if (!currentPrompt) {
-                    throw new Error(`Metadata [context] sem [component] em ${filePath}:${lineNumber}`);
+                    throw new Error(`[context] metadata without prior [component] at ${filePath}:${lineNumber}`);
                 }
                 const contextMatch = trimmed.match(/\[context:\s*(.+?)\s*\]/);
                 if (!contextMatch) {
-                    throw new Error(`Metadata [context] inválido em ${filePath}:${lineNumber}`);
+                    throw new Error(`Invalid [context] metadata at ${filePath}:${lineNumber}`);
                 }
                 if (currentPrompt) {
                     currentPrompt.context = contextMatch[1];
@@ -109,11 +109,11 @@ class PromptResolver {
             // Sections
             if (trimmed.startsWith('@')) {
                 if (!currentPrompt) {
-                    throw new Error(`Seção sem [component] em ${filePath}:${lineNumber}`);
+                    throw new Error(`Section without [component] at ${filePath}:${lineNumber}`);
                 }
                 currentSection = trimmed.substring(1);
                 if (!currentSection) {
-                    throw new Error(`Nome de seção vazio em ${filePath}:${lineNumber}`);
+                    throw new Error(`Empty section name at ${filePath}:${lineNumber}`);
                 }
                 if (currentPrompt && !currentPrompt.sections[currentSection]) {
                     currentPrompt.sections[currentSection] = {};
@@ -128,14 +128,14 @@ class PromptResolver {
                 const value = valueParts.join(':').trim();
 
                 if (!normalizedKey) {
-                    throw new Error(`Chave vazia em ${filePath}:${lineNumber}`);
+                    throw new Error(`Empty key at ${filePath}:${lineNumber}`);
                 }
 
                 if (value.startsWith('[') && value.endsWith(']')) {
                     try {
                         currentPrompt.sections[currentSection][normalizedKey] = JSON.parse(value);
                     } catch (error) {
-                        throw new Error(`Array inválido para "${normalizedKey}" em ${filePath}:${lineNumber}`);
+                        throw new Error(`Invalid array for "${normalizedKey}" at ${filePath}:${lineNumber}`);
                     }
                     continue;
                 }
@@ -167,19 +167,19 @@ class PromptResolver {
     }
 
     /**
-     * Gera o prompt final para a IA com base nos arquivos .prompt
+     * Generates the final prompt for the AI based on .prompt files
      */
     async generatePrompt(filePath, userPrompt) {
         const prompts = await this.loadPromptFiles(filePath);
         const effectiveSections = this.mergePromptRules(prompts);
         
-        let systemPrompt = '# Governança de IA - PromptSheet.dev\n\n';
-        systemPrompt += 'Regras aplicáveis baseadas nos arquivos .prompt encontrados:\n\n';
+        let systemPrompt = '# AI Governance - PromptSheet.dev\n\n';
+        systemPrompt += 'Applicable rules based on found .prompt files:\n\n';
         
         for (const prompt of prompts) {
-            systemPrompt += `## Componente: ${prompt.component}\n`;
+            systemPrompt += `## Component: ${prompt.component}\n`;
             if (prompt.context) {
-                systemPrompt += `Contexto: ${prompt.context}\n`;
+                systemPrompt += `Context: ${prompt.context}\n`;
             }
             
             for (const [section, rules] of Object.entries(prompt.sections)) {
@@ -196,7 +196,7 @@ class PromptResolver {
         }
 
         if (Object.keys(effectiveSections).length > 0) {
-            systemPrompt += '## Regras Efetivas\n';
+            systemPrompt += '## Effective Rules\n';
             for (const [section, rules] of Object.entries(effectiveSections)) {
                 systemPrompt += `### @${section}\n`;
                 for (const [key, value] of Object.entries(rules)) {
@@ -210,7 +210,7 @@ class PromptResolver {
             }
         }
         
-        systemPrompt += '## Instrução do Usuário\n';
+        systemPrompt += '## User Instruction\n';
         systemPrompt += userPrompt;
         
         return systemPrompt;
@@ -219,7 +219,7 @@ class PromptResolver {
     async resolveDebug(filePath, userPrompt = '') {
         const dir = this.getTargetDirectory(filePath);
         if (!fs.existsSync(dir) || !fs.statSync(dir).isDirectory()) {
-            throw new Error(`Diretório não encontrado para filePath "${filePath}": ${dir}`);
+            throw new Error(`Directory not found for filePath "${filePath}": ${dir}`);
         }
 
         const orderedFiles = this.getOrderedPromptFilePaths(dir);
@@ -328,7 +328,7 @@ class PromptResolver {
     }
 
     /**
-     * Limpa o cache
+     * Clears the cache
      */
     clearCache() {
         this.cache.clear();

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PromptSheet.dev — Governança de IA por Proximidade</title>
+<title>PromptSheet.dev — Proximity-Based AI Governance</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@300;400&family=Geist+Mono:wght@300;400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
@@ -62,7 +62,7 @@ nav {
 
 .nav-logo { display: none; }
 
-.nav-brand-name { font-size: 13px; font-weight: 400; color: var(--tx); display: block; line-height: 1.08; }
+.nav-brand-name { margin-top: -3px; font-size: 13px; font-weight: 400; color: var(--tx); display: block; line-height: 1.8; }
 .nav-brand-sub  { font-size: 10px; color: var(--tx-3); letter-spacing: 0.06em; display: block; line-height: 0.98; }
 
 .nav-links { display: flex; align-items: center; gap: 4px; list-style: none; }
@@ -190,6 +190,7 @@ code { font-family: var(--mono); font-size: 0.95em; background: var(--bg-3); bor
 
 /* SPEC */
 .spec-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
+.spec-layout .code-card { margin-top: -10px; }
 .spec-intro h2 {
   font-family: var(--sans); font-size: 38px; font-weight: 300;
   line-height: 1.1; margin-bottom: 16px; font-style: normal;
@@ -240,7 +241,14 @@ code { font-family: var(--mono); font-size: 0.95em; background: var(--bg-3); bor
 }
 .resource-list a:last-child { border-bottom: none; }
 .resource-list a:hover { color: var(--tx-2); }
-.rtag { font-size: 10px; color: var(--tx-3); letter-spacing: .06em; }
+.rtag { font-size: 10px; letter-spacing: .06em; }
+.rtag--express { color: var(--tag-express); }
+.rtag--github  { color: var(--tag-github);  }
+.rtag--core    { color: var(--tag-core);    }
+.rtag--tests   { color: var(--tag-tests);   }
+.rtag--tracker { color: var(--tag-tracker); }
+.rtag--review  { color: var(--tag-review);  }
+.rtag--flow    { color: var(--tag-flow);    }
 
 /* CTA */
 #cta { border-bottom: none; }
@@ -322,9 +330,9 @@ footer a {
     </div>
   </a>
   <ul class="nav-links">
-    <li><a href="#how">Como Funciona</a></li>
-    <li><a href="#implementation">Implementação</a></li>
-    <li><a href="#resources">Código & Recursos</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#implementation">Implementation</a></li>
+    <li><a href="#resources">Code & Resources</a></li>
     <li><a href="https://github.com/mikaelcarrara/prompt-sheet" target="_blank">GitHub</a></li>
     <li><a href="https://github.com/mikaelcarrara/prompt-sheet/blob/main/LICENSE" target="_blank" class="pill">MIT License</a></li>
   </ul>
@@ -338,10 +346,10 @@ footer a {
       <div class="hero-inner">
         <div>
           <div class="label reveal"><span class="label-dot"></span>Cascading Prompt Sheets</div>
-          <h1 class="hero-title reveal">Governança de IA por proximidade.</h1>
-          <p class="hero-desc reveal">Arquivos <code>.prompt</code> colocalizados com componentes, resolução em cascata no core Node.js e API de demo com endpoint de debug para inspecionar regras efetivas.</p>
+          <h1 class="hero-title reveal">Proximity-based<br> AI governance.</h1>
+          <p class="hero-desc reveal"><code>.prompt</code> files colocated with components, cascading resolution in a Node.js core, and a demo API with a debug endpoint to inspect effective rules.</p>
           <div class="hero-actions reveal">
-            <a href="#implementation" class="btn btn-light">Explorar Implementação</a>
+            <a href="#implementation" class="btn btn-light">Explore Implementation</a>
           </div>
         </div>
         <div class="code-card reveal">
@@ -349,13 +357,13 @@ footer a {
 <span class="ct">[context: e-commerce-checkout]</span>
 
 <span class="ck">@governance</span>
-  <span class="cx">- tone:</span> <span class="cv">"urgente e direto"</span>
-  <span class="cx">- restricted-terms:</span> <span class="cv">["barato", "grátis"]</span>
-  <span class="cx">- accessibility-check:</span> <span class="cv">"sempre validar aria-label"</span>
+  <span class="cx">- tone:</span> <span class="cv">"urgent and direct"</span>
+  <span class="cx">- restricted-terms:</span> <span class="cv">["cheap", "free"]</span>
+  <span class="cx">- accessibility-check:</span> <span class="cv">"always validate aria-label"</span>
 
 <span class="ck">@logic-constraints</span>
   <span class="cx">- max-characters:</span> <span class="cv">30</span>
-  <span class="cx">- dynamic-state:</span> <span class="cv">"se loading, exibir spinner"</span></pre>
+  <span class="cx">- dynamic-state:</span> <span class="cv">"if loading, show spinner"</span></pre>
         </div>
       </div>
     </div>
@@ -364,33 +372,33 @@ footer a {
   <!-- HOW -->
   <section id="how" class="section">
     <div class="container">
-      <div class="label reveal"></span>Como funciona</div>
+      <div class="label reveal"></span>How it works</div>
       <div class="steps-grid reveal">
         <div class="step">
           <span class="step-num">01</span>
-          <h3>Herança<br>em cascata</h3>
-          <p>Regras em <code>global.prompt</code> na raiz são herdadas por todos os subdiretórios.</p>
+          <h3>Cascading<br>inheritance</h3>
+          <p>Rules in root <code>global.prompt</code> are inherited by all subdirectories.</p>
           <div class="step-snippet">
             <div><span class="k">tone:</span> <span class="v">"profissional"</span></div>
-            <div><span class="k">accessibility-check:</span> <span class="v">"sempre validar WCAG 2.1"</span></div>
+            <div><span class="k">accessibility-check:</span> <span class="v">"always validate WCAG 2.1"</span></div>
           </div>
         </div>
         <div class="step">
           <span class="step-num">02</span>
-          <h3>Especificidade<br>local</h3>
-          <p>Prompts locais entram após os globais no mesmo diretório, preservando a ordem de resolução por proximidade.</p>
+          <h3>Local<br>specificity</h3>
+          <p>Local prompts load after globals within the same directory, preserving proximity-based resolution order.</p>
           <div class="step-snippet">
-            <div><span class="k">loadGlobalPrompts</span> <span class="v">→ primeiro</span></div>
-            <div><span class="k">loadLocalPrompts</span> <span class="v">→ depois</span></div>
+            <div><span class="k">loadGlobalPrompts</span> <span class="v">→ first</span></div>
+            <div><span class="k">loadLocalPrompts</span> <span class="v">→ then</span></div>
           </div>
         </div>
         <div class="step">
           <span class="step-num">03</span>
-          <h3>Injeção de<br>contexto</h3>
-          <p>Os endpoints <code>POST /api/generate-prompt</code> e <code>POST /api/resolve-debug</code> retornam o prompt final e o diagnóstico de resolução.</p>
+          <h3>Context<br>injection</h3>
+          <p>The <code>POST /api/generate-prompt</code> and <code>POST /api/resolve-debug</code> endpoints return the final prompt and resolution diagnostics.</p>
           <div class="step-snippet">
             <div><span class="k">filePath:</span> <span class="v">"examples/components/Button.prompt"</span></div>
-            <div><span class="k">userPrompt:</span> <span class="v">"Crie um botão de compra"</span></div>
+            <div><span class="k">userPrompt:</span> <span class="v">"Create a buy button"</span></div>
           </div>
         </div>
       </div>
@@ -400,11 +408,11 @@ footer a {
   <!-- SPEC -->
   <section id="implementation" class="section">
     <div class="container">
-      <div class="label reveal"><span class="label-dot"></span>Implementação técnica</div>
+      <div class="label reveal"><span class="label-dot"></span>Technical implementation</div>
       <div class="spec-layout reveal">
         <div class="spec-intro">
-          <h2>Formato e fluxo<br>do runtime atual</h2>
-          <p>O parser atual lê <code>[component]</code>, <code>[context]</code>, seções iniciadas por <code>@</code> e propriedades em <code>- chave: valor</code>. Durante o parse, converte arrays, boolean e números antes de montar o prompt final.</p>
+          <h2>Format and flow<br>of current runtime</h2>
+          <p>The parser reads <code>[component]</code>, <code>[context]</code>, sections starting with <code>@</code>, and properties as <code>- key: value</code>. During parse, it converts arrays, booleans, and numbers before assembling the final prompt.</p>
           <div class="spec-tags">
             <span class="spec-tag">@governance</span>
             <span class="spec-tag">@logic-constraints</span>
@@ -415,18 +423,19 @@ footer a {
             <span class="spec-tag">/api/resolve-debug</span>
           </div>
           <div class="spec-refs">
-            <a href="https://github.com/mikaelcarrara/prompt-sheet/blob/main/README.md" target="_blank" class="spec-ref">Guia técnico no README <span class="spec-ref-badge">GitHub →</span></a>
+            <a href="https://github.com/mikaelcarrara/prompt-sheet/blob/main/README.md" target="_blank" class="spec-ref">Technical guide in README <span class="spec-ref-badge">GitHub →</span></a>
             <a href="https://github.com/mikaelcarrara/prompt-sheet/blob/main/src/prompt-resolver.js" target="_blank" class="spec-ref">PromptResolver <span class="spec-ref-badge">GitHub →</span></a>
             <a href="https://github.com/mikaelcarrara/prompt-sheet/blob/main/src/demo-server.js" target="_blank" class="spec-ref">Demo Server + APIs <span class="spec-ref-badge">GitHub →</span></a>
-            <a href="https://github.com/mikaelcarrara/prompt-sheet/blob/main/examples/components/Button.prompt" target="_blank" class="spec-ref">Exemplo de .prompt <span class="spec-ref-badge">GitHub →</span></a>
+            <a href="https://github.com/mikaelcarrara/prompt-sheet/blob/main/examples/components/Button.prompt" target="_blank" class="spec-ref">.prompt example <span class="spec-ref-badge">GitHub →</span></a>
           </div>
         </div>
         <div class="code-card" style="align-self:start;">
           <pre><span class="ck">const</span> <span class="cx">resolver</span> = <span class="ck">new</span> <span class="cf">PromptResolver</span>(<span class="cv">'.'</span>)
 <span class="ck">const</span> <span class="cx">prompt</span> = <span class="ck">await</span> <span class="cx">resolver</span>.<span class="cf">generatePrompt</span>(
   <span class="cv">'examples/components/Button.jsx'</span>,
-  <span class="cv">'Crie um botão de compra com aria-label descritivo e contraste AA'</span>
+  <span class="cv">'\"Buy\" button with aria-label=\"Buy\", visible focus, and AA contrast'</span>
 )</pre>
+        </div>
         </div>
       </div>
     </div>
@@ -435,14 +444,14 @@ footer a {
   <!-- FEATURES -->
   <section id="features" class="section">
     <div class="container">
-      <div class="label reveal"><span class="label-dot"></span>Implementação de referência</div>
+      <div class="label reveal"><span class="label-dot"></span>Reference implementation</div>
       <div class="feature-grid reveal">
         <div class="feature-card">
           <h4>Core</h4>
           <ul class="feature-list">
-            <li>Cache por diretório com Map</li>
-            <li>Leitura de global.prompt por herança</li>
-            <li>Leitura de .prompt locais</li>
+            <li>Per-directory cache using Map</li>
+            <li>Read global.prompt via inheritance</li>
+            <li>Read local .prompt files</li>
           </ul>
         </div>
         <div class="feature-card">
@@ -458,7 +467,7 @@ footer a {
           <ul class="feature-list">
             <li>Node.js 14+</li>
             <li>Express 4.18</li>
-            <li>Página servida em /</li>
+            <li>Page served at /</li>
           </ul>
         </div>
       </div>
@@ -468,24 +477,24 @@ footer a {
   <!-- RESOURCES -->
   <section id="resources" class="section">
     <div class="container">
-      <div class="label reveal"><span class="label-dot"></span>Recursos e comunidade</div>
+      <div class="label reveal"><span class="label-dot"></span>Resources and community</div>
       <div class="resources-grid reveal">
         <div class="resource-group">
-          <h4>Documentação</h4>
+          <h4>Documentation</h4>
           <ul class="resource-list">
-            <li><a href="https://github.com/mikaelcarrara/prompt-sheet/blob/main/src/demo-server.js" target="_blank">API de demo <span class="rtag">Express</span></a></li>
-            <li><a href="https://github.com/mikaelcarrara/prompt-sheet/blob/main/README.md" target="_blank">README do projeto <span class="rtag">GitHub</span></a></li>
-            <li><a href="https://github.com/mikaelcarrara/prompt-sheet/blob/main/src/prompt-resolver.js" target="_blank">src/prompt-resolver.js <span class="rtag">Core</span></a></li>
-            <li><a href="https://github.com/mikaelcarrara/prompt-sheet/blob/main/tests/test-resolver.js" target="_blank">tests/test-resolver.js <span class="rtag">Testes</span></a></li>
+            <li><a href="https://github.com/mikaelcarrara/prompt-sheet/blob/main/src/demo-server.js" target="_blank">Demo API <span class="rtag rtag--express">Express</span></a></li>
+            <li><a href="https://github.com/mikaelcarrara/prompt-sheet/blob/main/README.md" target="_blank">Project README <span class="rtag rtag--github">GitHub</span></a></li>
+            <li><a href="https://github.com/mikaelcarrara/prompt-sheet/blob/main/src/prompt-resolver.js" target="_blank">src/prompt-resolver.js <span class="rtag rtag--core">Core</span></a></li>
+            <li><a href="https://github.com/mikaelcarrara/prompt-sheet/blob/main/tests/test-resolver.js" target="_blank">tests/test-resolver.js <span class="rtag rtag--tests">Tests</span></a></li>
           </ul>
         </div>
         <div class="resource-group">
-          <h4>Comunidade</h4>
+          <h4>Community</h4>
           <ul class="resource-list">
-            <li><a href="https://github.com/mikaelcarrara/prompt-sheet/discussions" target="_blank">Discussions <span class="rtag">GitHub</span></a></li>
-            <li><a href="https://github.com/mikaelcarrara/prompt-sheet/issues" target="_blank">Issues <span class="rtag">Tracker</span></a></li>
-            <li><a href="https://github.com/mikaelcarrara/prompt-sheet/pulls" target="_blank">Pull Requests <span class="rtag">Review</span></a></li>
-            <li><a href="https://github.com/mikaelcarrara/prompt-sheet" target="_blank">Contributing via GitHub <span class="rtag">Flow</span></a></li>
+            <li><a href="https://github.com/mikaelcarrara/prompt-sheet/discussions" target="_blank">Discussions <span class="rtag rtag--github">GitHub</span></a></li>
+            <li><a href="https://github.com/mikaelcarrara/prompt-sheet/issues" target="_blank">Issues <span class="rtag rtag--tracker">Tracker</span></a></li>
+            <li><a href="https://github.com/mikaelcarrara/prompt-sheet/pulls" target="_blank">Pull Requests <span class="rtag rtag--review">Review</span></a></li>
+            <li><a href="https://github.com/mikaelcarrara/prompt-sheet" target="_blank">Contributing via GitHub <span class="rtag rtag--flow">Flow</span></a></li>
           </ul>
         </div>
       </div>
@@ -497,12 +506,12 @@ footer a {
     <div class="container">
       <div class="cta-inner reveal">
         <div class="cta-text">
-          <h2>Cada componente governa<br>a sua própria inteligência.</h2>
-          <p>Comece com <code>global.prompt</code>, evolua com arquivos locais em <code>examples/components</code> e valide o fluxo pelo endpoint de geração.</p>
+          <h2>Each component governs<br>its own intelligence.</h2>
+          <p>Start with <code>global.prompt</code>, evolve with local files in <code>examples/components</code>, and validate the flow via the generation endpoint.</p>
         </div>
         <div class="cta-actions">
-          <a href="https://github.com/mikaelcarrara/prompt-sheet" target="_blank" class="btn btn-light">Ver no GitHub</a>
-          <a href="https://github.com/mikaelcarrara/prompt-sheet/blob/main/README.md" target="_blank" class="btn btn-ghost-dark">Ler especificação →</a>
+          <a href="https://github.com/mikaelcarrara/prompt-sheet" target="_blank" class="btn btn-light">View on GitHub</a>
+          <a href="https://github.com/mikaelcarrara/prompt-sheet/blob/main/README.md" target="_blank" class="btn btn-ghost-dark">Read specification →</a>
         </div>
       </div>
     </div>

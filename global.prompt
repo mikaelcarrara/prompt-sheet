@@ -3,17 +3,17 @@
 [context: all-components]
 
 @governance
-- tone: "profissional e amigável"
-- language: "pt-BR"
-- restricted-terms: ["click aqui", "clique aqui", "free", "grátis"]
-- accessibility-check: "sempre validar WCAG 2.1"
+- tone: "professional and friendly"
+- language: "en-US"
+- restricted-terms: ["click here", "free"]
+- accessibility-check: "always validate WCAG 2.1"
 
 @style-constraints
 - css-framework: "tailwindcss"
-- color-scheme: "consistente com marca"
+- color-scheme: "brand-consistent"
 - responsive-design: "mobile-first"
 
 @code-quality
 - use-typescript: true
 - eslint-config: "strict"
-- test-coverage: "mínimo 80%"
+- test-coverage: "minimum 80%"

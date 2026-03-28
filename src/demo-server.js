@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const http = require('http');
 const PromptResolver = require('./prompt-resolver');
+const { estimateTokens, enforceTokenLimit } = require('./metrics');
 
 const app = express();
 const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
@@ -10,32 +11,39 @@ const resolver = new PromptResolver(__dirname);
 app.use(express.static('public', { index: false }));
 app.use(express.json());
 
-// API para gerar prompt com governança
+// API to generate governed prompt
 app.post('/api/generate-prompt', async (req, res) => {
     try {
-        const { filePath, userPrompt } = req.body;
+        const { filePath, userPrompt, maxTokens } = req.body;
         
         if (!userPrompt) {
-            return res.status(400).json({ error: 'userPrompt é obrigatório' });
+            return res.status(400).json({ error: 'userPrompt is required' });
         }
         
         const enhancedPrompt = await resolver.generatePrompt(filePath || '.', userPrompt);
+        const originalTokens = estimateTokens(enhancedPrompt);
+        const limited = enforceTokenLimit(enhancedPrompt, maxTokens);
         
         res.json({
             success: true,
             originalPrompt: userPrompt,
-            enhancedPrompt,
-            filePath: filePath || '.'
+            enhancedPrompt: limited.text,
+            filePath: filePath || '.',
+            tokens: {
+                original: originalTokens,
+                final: limited.tokens,
+                truncated: !!limited.truncated
+            }
         });
     } catch (error) {
         res.status(500).json({ 
-            error: 'Erro ao gerar prompt', 
+            error: 'Error generating prompt', 
             details: error.message 
         });
     }
 });
 
-// API para listar arquivos .prompt encontrados
+// API to list found .prompt files
 app.get('/api/prompts/:filePath?', async (req, res) => {
     try {
         const filePath = req.params.filePath || '.';
@@ -49,7 +57,7 @@ app.get('/api/prompts/:filePath?', async (req, res) => {
         });
     } catch (error) {
         res.status(500).json({ 
-            error: 'Erro ao carregar prompts', 
+            error: 'Error loading prompts', 
             details: error.message 
         });
     }
@@ -67,20 +75,20 @@ app.post('/api/resolve-debug', async (req, res) => {
         });
     } catch (error) {
         res.status(500).json({
-            error: 'Erro ao resolver debug',
+            error: 'Error resolving debug',
             details: error.message
         });
     }
 });
 
-// Servir página principal (landing page)
+// Serve landing page
 app.get('/', (req, res) => {
     const homePath = path.join(__dirname, '..', 'index.html');
-    console.log('Servindo home page:', homePath);
+    console.log('Serving home page:', homePath);
     res.sendFile(homePath);
 });
 
-// Alias explícito para index.html
+// Explicit alias for index.html
 app.get('/index.html', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'index.html'));
 });
@@ -106,8 +114,8 @@ function startServer(initialPort) {
             }
         });
         server.listen(p, () => {
-            console.log(`🚀 PromptSheet.dev Demo Server rodando em http://localhost:${p}`);
-            console.log('📁 Diretório raiz:', __dirname);
+            console.log(`🚀 PromptSheet.dev Demo Server running at http://localhost:${p}`);
+            console.log('📁 Root directory:', __dirname);
         });
     }
     attempt();
