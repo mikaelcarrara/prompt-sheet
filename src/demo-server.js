@@ -84,14 +84,14 @@ app.post('/api/resolve-debug', async (req, res) => {
 
 // Serve landing page
 app.get('/', (req, res) => {
-    const homePath = path.join(__dirname, '..', 'public', 'index.html');
+    const homePath = path.join(__dirname, '..', 'index.html');
     console.log('Serving home page:', homePath);
     res.sendFile(homePath);
 });
 
 // Explicit alias for index.html
 app.get('/index.html', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
+    res.sendFile(path.join(__dirname, '..', 'index.html'));
 });
 
 app.get('/docs', (req, res) => {
