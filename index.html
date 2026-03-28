@@ -1,280 +1,529 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PromptSheet.dev - Governança de IA por Proximidade</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
-        
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        
-        .mono {
-            font-family: 'JetBrains Mono', monospace;
-        }
-        
-        .gradient-text {
-            background: linear-gradient(135deg, #1e40af 0%, #7c3aed 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .hero-gradient {
-            background: linear-gradient(135deg, #1e40af 0%, #7c3aed 100%);
-        }
-        
-        .card-hover {
-            transition: all 0.2s ease;
-            border: 1px solid #e5e7eb;
-        }
-        
-        .card-hover:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            border-color: #9333ea;
-        }
-        
-        .code-block {
-            background: #0f172a;
-            border: 1px solid #334155;
-            border-left: 4px solid #7c3aed;
-        }
-        
-        .badge {
-            background: #f3f4f6;
-            color: #374151;
-            border: 1px solid #d1d5db;
-            font-size: 0.75rem;
-            font-weight: 500;
-        }
-        
-        .badge-primary {
-            background: #7c3aed;
-            color: white;
-            border: 1px solid #7c3aed;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PromptSheet.dev — Governança de IA por Proximidade</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@300;400&family=Geist+Mono:wght@300;400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:      #0e0e0f;
+  --bg-2:    #141416;
+  --bg-3:    #1a1a1d;
+
+  --bg-4:    #222226;
+  --line:    #2a2a2e;
+  --line-2:  #333338;
+  --tx:      #e8e8e4;
+  --tx-2:    #a0a09c;
+  --tx-3:    #606060;
+  --tx-4:    #3a3a3e;
+  --code-bg:     #111114;
+  --code-comment:#404048;
+  --code-key:    #7b8eff;
+  --code-val:    #e8b84b;
+  --code-fn:     #6ec99a;
+  --code-tag:    #b07ef8;
+  --code-text:   #b0b0ac;
+  --mono: 'Geist Mono', monospace;
+  --serif: 'Cormorant', Georgia, serif;
+  --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif;
+  --r: 4px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--tx);
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px; height: 56px;
+  background: rgba(14,14,15,0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--line);
+}
+
+.nav-brand { display: flex; align-items: center; gap: 6px; text-decoration: none; }
+
+.nav-logo { display: none; }
+
+.nav-brand-name { font-size: 13px; font-weight: 400; color: var(--tx); display: block; line-height: 1.08; }
+.nav-brand-sub  { font-size: 10px; color: var(--tx-3); letter-spacing: 0.06em; display: block; line-height: 0.98; }
+
+.nav-links { display: flex; align-items: center; gap: 4px; list-style: none; }
+
+.nav-links a {
+  font-size: 12px; font-weight: 300; color: var(--tx-2); text-decoration: none;
+  padding: 6px 12px; border-radius: var(--r); transition: background .15s, color .15s;
+}
+.nav-links a:hover { background: var(--bg-3); color: var(--tx); }
+
+.nav-links .pill {
+  font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 5px 10px; border: 1px solid var(--line-2); border-radius: 2px; color: var(--tx-3);
+}
+.nav-links .pill:hover { border-color: var(--tx-3); background: transparent; }
+
+/* LAYOUT */
+main { padding-top: 56px; }
+.section { padding: 88px 40px; border-bottom: 1px solid var(--line); }
+.container { max-width: 1040px; margin: 0 auto; }
+
+/* LABEL */
+.label {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 10px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--tx-3); margin-bottom: 32px;
+}
+.label-dot { display: none; width: 5px; height: 5px; border-radius: 50%; background: var(--tx-4); }
+
+/* HERO */
+#hero { padding: 100px 40px 88px; }
+
+.hero-inner {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 64px; align-items: start;
+  align-items: center;
+}
+.hero-card-right { width: 100%; }
+
+.hero-title {
+  font-family: var(--sans);
+  font-size: clamp(32px, 4.2vw, 60px);
+  font-weight: 300; line-height: 1.06; letter-spacing: -0.05em;
+  color: var(--tx); margin-bottom: 24px;
+  font-style: normal;
+}
+
+.hero-desc {
+  font-size: 13px; color: var(--tx-2); line-height: 1.85;
+  margin-bottom: 20px;
+}
+
+.hero-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--sans); font-size: 12px; font-weight: 400; letter-spacing: 0.04em;
+  padding: 10px 20px; border-radius: var(--r); text-decoration: none;
+  transition: all .15s; cursor: pointer; border: none;
+}
+.btn-light  { background: var(--tx); color: var(--bg); }
+.btn-light:hover { background: #c8c8c4; }
+.btn-outline { background: transparent; color: var(--tx-2); border: 1px solid var(--line-2); }
+.btn-outline:hover { border-color: var(--tx-3); color: var(--tx); }
+
+/* STATUS BAR */
+.status-bar {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  border: none; border-radius: 0; overflow: visible; margin-top: 20px; gap: 12px;
+}
+.status-item {
+  padding: 10px 12px; border-right: none;
+  display: flex; flex-direction: column; gap: 2px;
+}
+.status-item:last-child { border-right: none; }
+.status-lbl { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--tx-3); }
+.status-val { font-size: 11px; font-weight: 400; color: var(--tx); display: flex; align-items: center; gap: 6px; }
+.status-dot { width: 5px; height: 5px; border-radius: 50%; background: #4a9a68; flex-shrink: 0; }
+
+/* CODE CARD */
+.code-card {
+  background: var(--bg-2); border-radius: var(--r); overflow: hidden; width: 100%;
+  box-sizing: border-box;
+  border: 1px solid var(--line);
+  padding: 20px;
+}
+.code-card-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 13px 20px; border-bottom: 1px solid var(--line);
+}
+.code-card-title { font-size: 12px; font-weight: 400; color: var(--tx-3); letter-spacing: 0.04em; }
+.code-tags { display: flex; gap: 6px; }
+.ctag {
+  font-size: 10px; font-weight: 400; letter-spacing: 0.06em;
+  padding: 3px 8px; border-radius: 3px; background: var(--bg-3); color: var(--tx-3);
+  border: 1px solid var(--line);
+}
+.code-card pre {
+  background: transparent; padding: 14px 16px;
+  font-size: 13.5px; line-height: 1.7; overflow: hidden; font-family: var(--mono);
+  white-space: pre-wrap; word-break: break-word;
+}
+.step-snippet { font-family: var(--mono); }
+code { font-family: var(--mono); font-size: 0.95em; background: var(--bg-3); border-radius: 3px; padding: 2px 6px; }
+
+/* STEPS */
+.steps-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1px; background: var(--line);
+  border: 1px solid var(--line); border-radius: var(--r); overflow: hidden;
+}
+.step { background: var(--bg); padding: 40px 36px; }
+.step-num { font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--tx-4); margin-bottom: 20px; display: block; }
+.step h3 {
+  font-family: var(--sans); font-size: 24px; font-weight: 300;
+  line-height: 1.15; margin-bottom: 12px; font-style: normal;
+}
+.step p { font-size: 12px; color: var(--tx-2); line-height: 1.8; margin-bottom: 24px; }
+.step-snippet {
+  background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--r);
+  padding: 14px 16px; font-size: 11.5px; line-height: 1.85;
+}
+.step-snippet .k { color: var(--tx); font-weight: 400; }
+.step-snippet .v { color: var(--tx-2); }
+
+/* SPEC */
+.spec-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
+.spec-intro h2 {
+  font-family: var(--sans); font-size: 38px; font-weight: 300;
+  line-height: 1.1; margin-bottom: 16px; font-style: normal;
+}
+.spec-intro p { color: var(--tx-2); line-height: 1.8; font-size: 13px; margin-bottom: 28px; }
+
+.spec-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 32px; }
+.spec-tag {
+  font-size: 11px; padding: 5px 10px; border: 1px solid var(--line-2);
+  border-radius: var(--r); color: var(--tx-2); background: var(--bg-3);
+}
+
+.spec-refs { border-top: 1px solid var(--line); padding-top: 4px; }
+.spec-ref {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 0; border-bottom: 1px solid var(--line);
+  text-decoration: none; color: var(--tx); font-size: 12px; transition: color .15s;
+}
+.spec-ref:last-child { border-bottom: none; }
+.spec-ref:hover { color: var(--tx-2); }
+.spec-ref-badge { font-size: 10px; color: var(--tx-3); letter-spacing: .06em; }
+
+/* FEATURES */
+.feature-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1px; background: var(--line);
+  border: 1px solid var(--line); border-radius: var(--r); overflow: hidden;
+}
+.feature-card { background: var(--bg); padding: 36px; }
+.feature-card h4 { font-size: 10px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--tx-3); margin-bottom: 20px; }
+.feature-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.feature-list li { font-size: 12.5px; color: var(--tx-2); display: flex; align-items: baseline; gap: 10px; }
+.feature-list li::before { content: '—'; color: var(--tx-4); font-size: 11px; flex-shrink: 0; }
+
+/* RESOURCES */
+.resources-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1px; background: var(--line);
+  border: 1px solid var(--line); border-radius: var(--r); overflow: hidden;
+}
+.resource-group { background: var(--bg); padding: 36px; }
+.resource-group h4 { font-size: 10px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--tx-3); margin-bottom: 20px; }
+.resource-list { list-style: none; }
+.resource-list a {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 11px 0; border-bottom: 1px solid var(--line);
+  font-size: 12.5px; color: var(--tx); text-decoration: none; transition: color .15s;
+}
+.resource-list a:last-child { border-bottom: none; }
+.resource-list a:hover { color: var(--tx-2); }
+.rtag { font-size: 10px; color: var(--tx-3); letter-spacing: .06em; }
+
+/* CTA */
+#cta { border-bottom: none; }
+.cta-inner {
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 40px;
+  padding: 64px 56px;
+  background: var(--bg-3);
+  border: 1px solid var(--line-2);
+  border-radius: 8px;
+  position: relative; overflow: hidden;
+}
+.cta-inner::before {
+  content: '.prompt';
+  position: absolute; right: -20px; top: 50%; transform: translateY(-50%) rotate(-10deg);
+  font-family: var(--mono); font-size: 130px; font-weight: 300;
+  color: rgba(255,255,255,0.02); white-space: nowrap; pointer-events: none;
+}
+.cta-text h2 {
+  font-family: var(--sans); font-size: clamp(30px, 4vw, 52px);
+  font-weight: 300; line-height: 1.05; color: var(--tx); font-style: normal;
+}
+.cta-text p { margin-top: 14px; font-size: 12.5px; color: var(--tx-3); max-width: 340px; line-height: 1.8; }
+.cta-actions { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; flex-shrink: 0; }
+
+.btn-ghost-dark {
+  background: transparent; color: var(--tx-2);
+  border: 1px solid var(--line-2);
+}
+.btn-ghost-dark:hover { color: var(--tx); border-color: var(--tx-3); }
+
+/* FOOTER */
+footer {
+  padding: 28px 40px; text-align: center;
+  border-top: 1px solid var(--line);
+  color: var(--tx-3);
+}
+
+footer a {
+  color: var(--tx-2);
+}
+
+/* SYNTAX */
+.cc { color: var(--code-comment); }
+.ck { color: var(--code-key); }
+.cv { color: var(--code-val); }
+.cf { color: var(--code-fn); }
+.ct { color: var(--code-tag); }
+.cx { color: var(--code-text); }
+
+/* REVEAL */
+.reveal { opacity: 0; transform: translateY(12px); transition: opacity .5s ease, transform .5s ease; }
+.reveal.in { opacity: 1; transform: none; }
+
+/* RESPONSIVE */
+@media (max-width: 860px) {
+  nav { padding: 0 20px; }
+  .nav-links li:nth-child(-n+2) { display: none; }
+  .section { padding: 64px 20px; }
+  #hero { padding: 80px 20px 64px; }
+  .hero-inner { grid-template-columns: 1fr; }
+  .hero-card-right { display: none; }
+  .steps-grid, .feature-grid { grid-template-columns: 1fr; }
+  .spec-layout, .resources-grid { grid-template-columns: 1fr; }
+  .status-bar { grid-template-columns: 1fr 1fr; }
+  .cta-inner { flex-direction: column; align-items: flex-start; padding: 40px 32px; }
+  .cta-actions { align-items: flex-start; }
+  footer { padding: 24px 20px; flex-direction: column; align-items: flex-start; gap: 8px; }
+}
+</style>
 </head>
-<body class="bg-gray-50">
-    <!-- Header -->
-    <header class="fixed top-0 w-full bg-white border-b z-50">
-        <nav class="container mx-auto px-6 py-4">
-            <div class="flex items-center justify-between">
-                <a href="/" class="flex items-center space-x-3">
-                    <div class="w-8 h-8 bg-gray-900 rounded flex items-center justify-center">
-                        <span class="text-white text-sm font-bold mono">PS</span>
-                    </div>
-                    <div>
-                        <h1 class="text-lg font-semibold text-gray-900">PromptSheet.dev</h1>
-                        <p class="text-xs text-gray-500 mono">CPS v1.0.0</p>
-                    </div>
-                </a>
-                
-                <div class="hidden md:flex items-center space-x-6">
-                    <a href="#como-funciona" class="text-sm text-gray-600 hover:text-gray-900 font-medium">Como Funciona</a>
-                    <a href="docs.html" class="text-sm text-gray-600 hover:text-gray-900 font-medium">Documentação</a>
-                    <a href="https://github.com/mikaelcarrara/prompt-sheet" class="text-sm text-gray-600 hover:text-gray-900 font-medium">GitHub</a>
-                </div>
-                
-                <div class="flex items-center space-x-3">
-                    <span class="badge badge-primary">OPEN SOURCE</span>
-                    <span class="badge">MIT LICENSE</span>
-                    <button class="md:hidden text-gray-600">
-                        <i class="fas fa-bars text-xl"></i>
-                    </button>
-                </div>
-            </div>
-        </nav>
-    </header>
+<body>
 
-    <!-- Hero Section -->
-    <section class="pt-32 pb-16 px-6 bg-white">
-        <div class="container mx-auto">
-            <div class="max-w-4xl mx-auto text-center">
-                <div class="flex items-center justify-center space-x-4 mb-8">
-                    <span class="badge badge-primary">CPS v1.0.0</span>
-                    <span class="badge">STABLE</span>
-                </div>
-                
-                <h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-                    Governança de IA<br>
-                    <span class="gradient-text">por Proximidade</span>
-                </h1>
-                
-                <p class="text-xl text-gray-600 mb-8 leading-relaxed max-w-3xl mx-auto">
-                    Cascading Prompt Sheets (CPS) - Uma camada de governança componentizada para IA inspirada na estrutura de cascata do CSS. Onde cada componente tem suas próprias regras.
-                </p>
-                
-                <div class="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-                    <a href="docs.html" class="bg-gray-900 text-white px-8 py-4 rounded-lg font-medium hover:bg-gray-800 transition-colors flex items-center justify-center space-x-2 text-lg">
-                        <i class="fas fa-book"></i>
-                        <span>Ver Documentação</span>
-                    </a>
-                    <a href="https://github.com/mikaelcarrara/prompt-sheet" class="border border-gray-300 text-gray-700 px-8 py-4 rounded-lg font-medium hover:bg-gray-50 transition-colors text-lg">
-                        <i class="fab fa-github mr-2"></i>
-                        GitHub Repository
-                    </a>
-                </div>
-                
-                <div class="bg-gray-50 border border-gray-200 rounded-lg p-6 max-w-2xl mx-auto">
-                    <h3 class="font-semibold text-gray-900 mb-3 mono text-sm">QUICK START</h3>
-                    <div class="code-block rounded-lg p-4 text-gray-300">
-                        <pre class="mono text-sm"><code><span class="text-gray-500"># Clone o projeto</span>
-git clone https://github.com/mikaelcarrara/prompt-sheet.git
-cd prompt-sheet
+<nav>
+  <a href="/" class="nav-brand">
+    <div class="nav-logo">PS</div>
+    <div>
+      <span class="nav-brand-name">PromptSheet.dev</span>
+      <span class="nav-brand-sub">CPS v1.0.0</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#how">Como Funciona</a></li>
+    <li><a href="#implementation">Implementação</a></li>
+    <li><a href="#resources">Código & Recursos</a></li>
+    <li><a href="https://github.com/mikaelcarrara/prompt-sheet" target="_blank">GitHub</a></li>
+    <li><a href="https://github.com/mikaelcarrara/prompt-sheet/blob/main/LICENSE" target="_blank" class="pill">MIT License</a></li>
+  </ul>
+</nav>
 
-<span class="text-gray-500"># Instale dependências</span>
-npm install
+<main>
 
-<span class="text-gray-500"># Inicie o servidor de demonstração</span>
-npm start</code></pre>
-                    </div>
-                </div>
-            </div>
+  <!-- HERO -->
+  <section id="hero" class="section">
+    <div class="container">
+      <div class="hero-inner">
+        <div>
+          <div class="label reveal"><span class="label-dot"></span>Cascading Prompt Sheets</div>
+          <h1 class="hero-title reveal">Governança de IA por proximidade.</h1>
+          <p class="hero-desc reveal">Arquivos <code>.prompt</code> colocalizados com componentes, resolução em cascata no core Node.js e API de demo com endpoint de debug para inspecionar regras efetivas.</p>
+          <div class="hero-actions reveal">
+            <a href="#implementation" class="btn btn-light">Explorar Implementação</a>
+          </div>
         </div>
-    </section>
+        <div class="code-card reveal">
+          <pre><span class="ct">[component: action-button]</span>
+<span class="ct">[context: e-commerce-checkout]</span>
 
-    <!-- How it Works -->
-    <section id="como-funciona" class="py-16 px-6 bg-gray-50">
-        <div class="container mx-auto">
-            <div class="max-w-6xl mx-auto">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold text-gray-900 mb-4">
-                        Como <span class="gradient-text">Funciona</span>
-                    </h2>
-                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-                        CPS implementa governança por proximidade através de arquivos .prompt colocalizados
-                    </p>
-                </div>
-                
-                <div class="grid md:grid-cols-3 gap-8">
-                    <div class="bg-white rounded-xl p-8 border border-gray-200 card-hover">
-                        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-6">
-                            <i class="fas fa-sitemap text-blue-600 text-xl"></i>
-                        </div>
-                        <h3 class="text-xl font-semibold text-gray-900 mb-4">1. Herança em Cascata</h3>
-                        <p class="text-gray-600 mb-4">
-                            Regras definidas na raiz (ex: <code class="mono bg-gray-100 px-1">global.prompt</code>) são herdadas por todos os subdiretórios.
-                        </p>
-                        <div class="code-block rounded-lg p-3 text-gray-300 text-xs">
-                            <pre class="mono"><code><span class="text-gray-500">global.prompt</span>
-<span class="text-blue-400">@governance</span>
-<span class="text-gray-500">tone:</span> <span class="text-green-400">"profissional"</span>
-<span class="text-gray-500">accessibility:</span> <span class="text-green-400">"sempre"</span></code></pre>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-white rounded-xl p-8 border border-gray-200 card-hover">
-                        <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-6">
-                            <i class="fas fa-crosshairs text-purple-600 text-xl"></i>
-                        </div>
-                        <h3 class="text-xl font-semibold text-gray-900 mb-4">2. Especificidade Local</h3>
-                        <p class="text-gray-600 mb-4">
-                            Regras locais (ex: <code class="mono bg-gray-100 px-1">Button.prompt</code>) sobrescrevem regras globais.
-                        </p>
-                        <div class="code-block rounded-lg p-3 text-gray-300 text-xs">
-                            <pre class="mono"><code><span class="text-gray-500">Button.prompt</span>
-<span class="text-blue-400">@governance</span>
-<span class="text-gray-500">tone:</span> <span class="text-green-400">"urgente"</span>
-<span class="text-gray-500">max-chars:</span> <span class="text-orange-400">30</span></code></pre>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-white rounded-xl p-8 border border-gray-200 card-hover">
-                        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-6">
-                            <i class="fas fa-magic text-green-600 text-xl"></i>
-                        </div>
-                        <h3 class="text-xl font-semibold text-gray-900 mb-4">3. Injeção de Contexto</h3>
-                        <p class="text-gray-600 mb-4">
-                            Prompt Resolver lê a árvore do componente e injeta as regras no prompt de sistema da IA.
-                        </p>
-                        <div class="code-block rounded-lg p-3 text-gray-300 text-xs">
-                            <pre class="mono"><code><span class="text-purple-400">const</span> resolver = <span class="text-purple-400">new</span> <span class="text-blue-400">PromptResolver</span>();
-<span class="text-purple-400">const</span> prompt = <span class="text-purple-400">await</span> resolver.<span class="text-blue-400">generatePrompt</span>(
-  <span class="text-green-400">'components/Button'</span>, 
-  <span class="text-green-400">'Crie um botão...'</span>
-);</code></pre>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<span class="ck">@governance</span>
+  <span class="cx">- tone:</span> <span class="cv">"urgente e direto"</span>
+  <span class="cx">- restricted-terms:</span> <span class="cv">["barato", "grátis"]</span>
+  <span class="cx">- accessibility-check:</span> <span class="cv">"sempre validar aria-label"</span>
+
+<span class="ck">@logic-constraints</span>
+  <span class="cx">- max-characters:</span> <span class="cv">30</span>
+  <span class="cx">- dynamic-state:</span> <span class="cv">"se loading, exibir spinner"</span></pre>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <!-- CTA Section -->
-    <section class="py-20 bg-gray-900 text-white">
-        <div class="container mx-auto px-6 text-center">
-            <div class="max-w-4xl mx-auto">
-                <h2 class="text-4xl font-bold mb-6">
-                    Comece a Usar CPS Hoje
-                </h2>
-                <p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-                    Junte-se à comunidade que está revolucionando a governança de IA em desenvolvimento de software.
-                </p>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <a href="docs.html" class="bg-white text-gray-900 px-8 py-4 rounded-lg font-medium hover:bg-gray-100 transition-colors text-lg">
-                        <i class="fas fa-book mr-2"></i>
-                        Ler Documentação
-                    </a>
-                    <a href="https://github.com/mikaelcarrara/prompt-sheet" class="border border-gray-600 text-white px-8 py-4 rounded-lg font-medium hover:bg-gray-800 transition-colors text-lg">
-                        <i class="fab fa-github mr-2"></i>
-                        Ver no GitHub
-                    </a>
-                </div>
-            </div>
+  <!-- HOW -->
+  <section id="how" class="section">
+    <div class="container">
+      <div class="label reveal"></span>Como funciona</div>
+      <div class="steps-grid reveal">
+        <div class="step">
+          <span class="step-num">01</span>
+          <h3>Herança<br>em cascata</h3>
+          <p>Regras em <code>global.prompt</code> na raiz são herdadas por todos os subdiretórios.</p>
+          <div class="step-snippet">
+            <div><span class="k">tone:</span> <span class="v">"profissional"</span></div>
+            <div><span class="k">accessibility-check:</span> <span class="v">"sempre validar WCAG 2.1"</span></div>
+          </div>
         </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-gray-300 py-12 border-t border-gray-800">
-        <div class="container mx-auto px-6">
-            <div class="flex flex-col md:flex-row items-center justify-between mb-8">
-                <div class="flex items-center space-x-4 mb-4 md:mb-0">
-                    <div class="w-8 h-8 bg-gray-700 rounded flex items-center justify-center">
-                        <span class="text-white text-sm font-bold mono">PS</span>
-                    </div>
-                    <div>
-                        <h3 class="text-white font-semibold">PromptSheet.dev</h3>
-                        <p class="text-xs text-gray-500 mono">CPS Specification v1.0.0</p>
-                    </div>
-                </div>
-                
-                <div class="flex items-center space-x-6">
-                    <a href="docs.html" class="text-gray-400 hover:text-white transition-colors">
-                        <i class="fas fa-book mr-2"></i>Docs
-                    </a>
-                    <a href="https://github.com/mikaelcarrara/prompt-sheet" class="text-gray-400 hover:text-white transition-colors">
-                        <i class="fab fa-github mr-2"></i>GitHub
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-white transition-colors">
-                        <i class="fas fa-balance-scale mr-2"></i>MIT
-                    </a>
-                </div>
-            </div>
-            
-            <div class="border-t border-gray-800 pt-8 text-center text-sm text-gray-500">
-                <p>Open Source Specification • Community Driven • MIT License</p>
-                <p class="mt-2">Governança de IA por Proximidade - Onde cada componente tem suas próprias regras 🚀</p>
-            </div>
+        <div class="step">
+          <span class="step-num">02</span>
+          <h3>Especificidade<br>local</h3>
+          <p>Prompts locais entram após os globais no mesmo diretório, preservando a ordem de resolução por proximidade.</p>
+          <div class="step-snippet">
+            <div><span class="k">loadGlobalPrompts</span> <span class="v">→ primeiro</span></div>
+            <div><span class="k">loadLocalPrompts</span> <span class="v">→ depois</span></div>
+          </div>
         </div>
-    </footer>
+        <div class="step">
+          <span class="step-num">03</span>
+          <h3>Injeção de<br>contexto</h3>
+          <p>Os endpoints <code>POST /api/generate-prompt</code> e <code>POST /api/resolve-debug</code> retornam o prompt final e o diagnóstico de resolução.</p>
+          <div class="step-snippet">
+            <div><span class="k">filePath:</span> <span class="v">"examples/components/Button.prompt"</span></div>
+            <div><span class="k">userPrompt:</span> <span class="v">"Crie um botão de compra"</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <script>
-        // Smooth scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
-        });
-    </script>
+  <!-- SPEC -->
+  <section id="implementation" class="section">
+    <div class="container">
+      <div class="label reveal"><span class="label-dot"></span>Implementação técnica</div>
+      <div class="spec-layout reveal">
+        <div class="spec-intro">
+          <h2>Formato e fluxo<br>do runtime atual</h2>
+          <p>O parser atual lê <code>[component]</code>, <code>[context]</code>, seções iniciadas por <code>@</code> e propriedades em <code>- chave: valor</code>. Durante o parse, converte arrays, boolean e números antes de montar o prompt final.</p>
+          <div class="spec-tags">
+            <span class="spec-tag">@governance</span>
+            <span class="spec-tag">@logic-constraints</span>
+            <span class="spec-tag">[component]</span>
+            <span class="spec-tag">[context]</span>
+            <span class="spec-tag">/api/prompts</span>
+            <span class="spec-tag">/api/generate-prompt</span>
+            <span class="spec-tag">/api/resolve-debug</span>
+          </div>
+          <div class="spec-refs">
+            <a href="https://github.com/mikaelcarrara/prompt-sheet/blob/main/README.md" target="_blank" class="spec-ref">Guia técnico no README <span class="spec-ref-badge">GitHub →</span></a>
+            <a href="https://github.com/mikaelcarrara/prompt-sheet/blob/main/src/prompt-resolver.js" target="_blank" class="spec-ref">PromptResolver <span class="spec-ref-badge">GitHub →</span></a>
+            <a href="https://github.com/mikaelcarrara/prompt-sheet/blob/main/src/demo-server.js" target="_blank" class="spec-ref">Demo Server + APIs <span class="spec-ref-badge">GitHub →</span></a>
+            <a href="https://github.com/mikaelcarrara/prompt-sheet/blob/main/examples/components/Button.prompt" target="_blank" class="spec-ref">Exemplo de .prompt <span class="spec-ref-badge">GitHub →</span></a>
+          </div>
+        </div>
+        <div class="code-card" style="align-self:start;">
+          <pre><span class="ck">const</span> <span class="cx">resolver</span> = <span class="ck">new</span> <span class="cf">PromptResolver</span>(<span class="cv">'.'</span>)
+<span class="ck">const</span> <span class="cx">prompt</span> = <span class="ck">await</span> <span class="cx">resolver</span>.<span class="cf">generatePrompt</span>(
+  <span class="cv">'examples/components/Button.jsx'</span>,
+  <span class="cv">'Crie um botão de compra com aria-label descritivo e contraste AA'</span>
+)</pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features" class="section">
+    <div class="container">
+      <div class="label reveal"><span class="label-dot"></span>Implementação de referência</div>
+      <div class="feature-grid reveal">
+        <div class="feature-card">
+          <h4>Core</h4>
+          <ul class="feature-list">
+            <li>Cache por diretório com Map</li>
+            <li>Leitura de global.prompt por herança</li>
+            <li>Leitura de .prompt locais</li>
+          </ul>
+        </div>
+        <div class="feature-card">
+          <h4>API</h4>
+          <ul class="feature-list">
+            <li><code>POST /api/generate-prompt</code></li>
+            <li><code>GET /api/prompts/:filePath?</code></li>
+            <li><code>POST /api/resolve-debug</code></li>
+          </ul>
+        </div>
+        <div class="feature-card">
+          <h4>Runtime</h4>
+          <ul class="feature-list">
+            <li>Node.js 14+</li>
+            <li>Express 4.18</li>
+            <li>Página servida em /</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESOURCES -->
+  <section id="resources" class="section">
+    <div class="container">
+      <div class="label reveal"><span class="label-dot"></span>Recursos e comunidade</div>
+      <div class="resources-grid reveal">
+        <div class="resource-group">
+          <h4>Documentação</h4>
+          <ul class="resource-list">
+            <li><a href="https://github.com/mikaelcarrara/prompt-sheet/blob/main/src/demo-server.js" target="_blank">API de demo <span class="rtag">Express</span></a></li>
+            <li><a href="https://github.com/mikaelcarrara/prompt-sheet/blob/main/README.md" target="_blank">README do projeto <span class="rtag">GitHub</span></a></li>
+            <li><a href="https://github.com/mikaelcarrara/prompt-sheet/blob/main/src/prompt-resolver.js" target="_blank">src/prompt-resolver.js <span class="rtag">Core</span></a></li>
+            <li><a href="https://github.com/mikaelcarrara/prompt-sheet/blob/main/tests/test-resolver.js" target="_blank">tests/test-resolver.js <span class="rtag">Testes</span></a></li>
+          </ul>
+        </div>
+        <div class="resource-group">
+          <h4>Comunidade</h4>
+          <ul class="resource-list">
+            <li><a href="https://github.com/mikaelcarrara/prompt-sheet/discussions" target="_blank">Discussions <span class="rtag">GitHub</span></a></li>
+            <li><a href="https://github.com/mikaelcarrara/prompt-sheet/issues" target="_blank">Issues <span class="rtag">Tracker</span></a></li>
+            <li><a href="https://github.com/mikaelcarrara/prompt-sheet/pulls" target="_blank">Pull Requests <span class="rtag">Review</span></a></li>
+            <li><a href="https://github.com/mikaelcarrara/prompt-sheet" target="_blank">Contributing via GitHub <span class="rtag">Flow</span></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="cta" class="section">
+    <div class="container">
+      <div class="cta-inner reveal">
+        <div class="cta-text">
+          <h2>Cada componente governa<br>a sua própria inteligência.</h2>
+          <p>Comece com <code>global.prompt</code>, evolua com arquivos locais em <code>examples/components</code> e valide o fluxo pelo endpoint de geração.</p>
+        </div>
+        <div class="cta-actions">
+          <a href="https://github.com/mikaelcarrara/prompt-sheet" target="_blank" class="btn btn-light">Ver no GitHub</a>
+          <a href="https://github.com/mikaelcarrara/prompt-sheet/blob/main/README.md" target="_blank" class="btn btn-ghost-dark">Ler especificação →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <span class="footer-meta">© 2026 <a href="https://github.com/mikaelcarrara" target="_blank">Mikael Carrara</a>. Released under the MIT License.</span>
+</footer>
+
+<script>
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('in'), i * 60);
+      obs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
 </body>
 </html>

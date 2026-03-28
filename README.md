@@ -15,35 +15,41 @@ O **CPS** propõe uma camada de governança componentizada. Em vez de prompts gl
 ### Instalação
 
 ```bash
-# Clone o projeto
-git clone <repository-url>
-cd PromptSheet.dev
+git clone https://github.com/mikaelcarrara/prompt-sheet.git
+cd prompt-sheet
 
-# Instale dependências
 npm install
 
-# Inicie o servidor de demonstração
 npm start
 ```
 
 Abra `http://localhost:3000` no seu navegador.
 
+## Status Atual
+
+- Core de resolução com cache por diretório
+- Merge determinístico de regras (`último valor vence` para escalares, `união sem duplicatas` para arrays)
+- Endpoint de debug para inspecionar ordem de arquivos e regras efetivas
+
 ### Estrutura do Projeto
 
 ```
-PromptSheet.dev/
+prompt-sheet/
+├── .github/
+│   └── workflows/
+│       └── deploy.yml        # Workflow de deploy no GitHub Pages
 ├── src/
 │   ├── prompt-resolver.js    # Core engine do CPS
 │   └── demo-server.js        # Servidor de demonstração
-├── public/
-│   └── index.html           # Interface web
+├── index.html                # Landing page
 ├── examples/
 │   └── components/
 │       ├── Button.prompt    # Exemplo de prompt de botão
 │       └── Input.prompt     # Exemplo de prompt de input
 ├── global.prompt            # Regras globais herdadas
-└── tests/
-    └── test-resolver.js     # Testes do motor CPS
+├── tests/
+│   └── test-resolver.js      # Testes do PromptResolver
+└── package.json              # Scripts e dependências
 ```
 
 ## Como Funciona
@@ -54,11 +60,13 @@ Regras definidas na raiz (ex: `/global.prompt`) são herdadas por todos os subdi
 
 ### 2. Especificidade Local
 
-Regras locais (ex: `Button.prompt`) sobrescrevem regras globais.
+Regras locais no diretório alvo são combinadas após os globais.
+Para chaves escalares, o valor mais específico sobrescreve o anterior.
+Para arrays, os valores são unidos sem duplicação.
 
 ### 3. Injeção de Contexto
 
-Um *Prompt Resolver* lê a árvore do componente no momento da geração e injeta as regras no prompt de sistema da IA.
+O `PromptResolver` lê os arquivos aplicáveis e monta o prompt de sistema para a IA.
 
 ## Formato do Arquivo .prompt
 
@@ -80,14 +88,20 @@ Um *Prompt Resolver* lê a árvore do componente no momento da geração e injet
 
 ## 🔧 API
 
+### Endpoints HTTP da Demo
+
+- `POST /api/generate-prompt`
+- `GET /api/prompts/:filePath?`
+- `POST /api/resolve-debug`
+
 ### Gerar Prompt Enriquecido
 
 ```javascript
 const PromptResolver = require('./src/prompt-resolver');
-const resolver = new PromptResolver('./meu-projeto');
+const resolver = new PromptResolver(__dirname);
 
 const enhancedPrompt = await resolver.generatePrompt(
-    'components/Button',
+    'examples/components/Button.jsx',
     'Crie um botão de compra para e-commerce'
 );
 ```
@@ -95,18 +109,33 @@ const enhancedPrompt = await resolver.generatePrompt(
 ### Carregar Regras de um Diretório
 
 ```javascript
-const prompts = await resolver.loadPromptFiles('components/Button');
+const prompts = await resolver.loadPromptFiles('examples/components/Button.jsx');
 console.log(prompts); // Array de regras aplicáveis
+```
+
+### Diagnóstico Completo de Resolução
+
+```javascript
+const debug = await resolver.resolveDebug(
+    'examples/components/Button.jsx',
+    'Crie um botão de compra para e-commerce'
+);
+
+console.log(debug.orderedPromptFiles);
+console.log(debug.effectiveSections);
+```
+
+### Exemplo de chamada HTTP para debug
+
+```bash
+curl -X POST http://localhost:3000/api/resolve-debug \
+  -H "Content-Type: application/json" \
+  -d "{\"filePath\":\"examples/components/Button.jsx\",\"userPrompt\":\"Crie um botão\"}"
 ```
 
 ## Interface Web
 
-A demo inclui uma interface web interativa onde você pode:
-
-- Digitar seu prompt original
-- Especificar o contexto do componente
-- Ver o prompt enriquecido com governança CPS
-- Copiar o prompt final para usar com qualquer IA
+A demo inclui uma landing page em `index.html` servida em `http://localhost:3000`.
 
 ## Testes
 
@@ -122,26 +151,29 @@ Classe principal que implementa:
 
 - **Cache inteligente** para performance
 - **Herança em cascata** de regras globais para locais
-- **Parse flexível** do formato `.prompt`
+- **Parse de `.prompt`** com metadados, seções, arrays, boolean e número
+- **Merge determinístico** de regras efetivas
 - **Geração automática** de prompts enriquecidos
+- **Diagnóstico completo** com `resolveDebug`
 
 ### Estrutura de Dados
 
 ```javascript
 {
-  component: "action-button",
-  context: "e-commerce-checkout",
-  sections: {
+  filePath: "examples/components/Button.jsx",
+  orderedPromptFiles: ["global.prompt", "examples/components/Button.prompt"],
+  promptCount: 2,
+  prompts: [
+    { component: "global", sourceFile: "global.prompt", sections: { ... } },
+    { component: "action-button", sourceFile: "examples/components/Button.prompt", sections: { ... } }
+  ],
+  effectiveSections: {
     governance: {
       tone: "urgente e direto",
-      restrictedTerms: ["barato", "grátis"],
-      allowedActions: ["comprar", "adicionar ao carrinho"]
-    },
-    logicConstraints: {
-      maxCharacters: 30,
-      dynamicState: "se estado for 'loading', exibir spinner"
+      "restricted-terms": ["click aqui", "grátis"]
     }
-  }
+  },
+  enhancedPrompt: "# Governança de IA - PromptSheet.dev..."
 }
 ```
 

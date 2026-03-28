@@ -55,6 +55,24 @@ app.get('/api/prompts/:filePath?', async (req, res) => {
     }
 });
 
+app.post('/api/resolve-debug', async (req, res) => {
+    try {
+        const { filePath, userPrompt } = req.body || {};
+        const targetPath = filePath || '.';
+        const debug = await resolver.resolveDebug(targetPath, userPrompt || '');
+
+        res.json({
+            success: true,
+            ...debug
+        });
+    } catch (error) {
+        res.status(500).json({
+            error: 'Erro ao resolver debug',
+            details: error.message
+        });
+    }
+});
+
 // Servir página principal (landing page)
 app.get('/', (req, res) => {
     const homePath = path.join(__dirname, '..', 'index.html');
@@ -67,12 +85,12 @@ app.get('/index.html', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'index.html'));
 });
 
-app.get('/docs.html', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'docs.html'));
+app.get('/docs', (req, res) => {
+    res.redirect('/#implementation');
 });
 
-app.get('/docs', (req, res) => {
-    res.redirect('/docs.html');
+app.get('/docs.html', (req, res) => {
+    res.redirect('/#implementation');
 });
 
 function startServer(initialPort) {
