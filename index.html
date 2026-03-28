@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PromptSheet.dev — Proximity-Based AI Governance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@300;400&family=Geist+Mono:wght@300;400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+
+<nav class="topbar">
+  <a href="./" class="brand-link">
+    <div class="brand-mark">PS</div>
+    <div>
+      <span class="brand-title">PromptSheet.dev</span>
+      <span class="brand-subtitle">CPS v1.0.0</span>
+    </div>
+  </a>
+  <ul class="menu-inline">
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#implementation">Implementation</a></li>
+    <li><a href="#resources">Code & Resources</a></li>
+  </ul>
+</nav>
+
+<main class="page-shell">
+
+  <!-- HERO -->
+  <section id="hero" class="section-block section-block--lead">
+    <div class="layout-container">
+      <div class="layout-split">
+        <div>
+          <div class="eyebrow reveal"><span class="eyebrow-dot"></span>Cascading Prompt Sheets</div>
+          <h1 class="title-display reveal">Proximity-based<br> AI governance.</h1>
+          <p class="text-support reveal"><code>.prompt</code> files colocated with components, cascading resolution in a Node.js core, and a demo API with a debug endpoint to inspect effective rules.</p>
+          <div class="action-row reveal">
+            <a href="#implementation" class="button button--solid">Explore Implementation</a>
+          </div>
+        </div>
+        <div class="panel-surface panel-surface--secondary reveal">
+          <pre><span class="ct">[component: action-button]</span>
+<span class="ct">[context: e-commerce-checkout]</span>
+
+<span class="ck">@governance</span>
+  <span class="cx">- tone:</span> <span class="cv">"urgent and direct"</span>
+  <span class="cx">- restricted-terms:</span> <span class="cv">["cheap", "free"]</span>
+  <span class="cx">- accessibility-check:</span> <span class="cv">"always validate aria-label"</span>
+
+<span class="ck">@logic-constraints</span>
+  <span class="cx">- max-characters:</span> <span class="cv">30</span>
+  <span class="cx">- dynamic-state:</span> <span class="cv">"if loading, show spinner"</span></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW -->
+  <section id="how" class="section-block">
+    <div class="layout-container">
+      <div class="eyebrow reveal">How it works</div>
+      <div class="grid-3 framed-grid reveal">
+        <div class="content-card content-card--lg">
+          <span class="item-kicker">01</span>
+          <h3>Cascading<br>inheritance</h3>
+          <p>Rules in root <code>global.prompt</code> are inherited by all subdirectories.</p>
+          <div class="snippet-box">
+            <div><span class="k">tone:</span> <span class="v">"professional"</span></div>
+            <div><span class="k">accessibility-check:</span> <span class="v">"always validate WCAG 2.1"</span></div>
+          </div>
+        </div>
+        <div class="content-card content-card--lg">
+          <span class="item-kicker">02</span>
+          <h3>Local<br>specificity</h3>
+          <p>Local prompts load after globals within the same directory, preserving proximity-based resolution order.</p>
+          <div class="snippet-box">
+            <div><span class="k">loadGlobalPrompts</span> <span class="v">→ first</span></div>
+            <div><span class="k">loadLocalPrompts</span> <span class="v">→ then</span></div>
+          </div>
+        </div>
+        <div class="content-card content-card--lg">
+          <span class="item-kicker">03</span>
+          <h3>Context<br>injection</h3>
+          <p>The <code>POST /api/generate-prompt</code> and <code>POST /api/resolve-debug</code> endpoints return the final prompt and resolution diagnostics.</p>
+          <div class="snippet-box">
+            <div><span class="k">filePath:</span> <span class="v">"examples/components/Button.prompt"</span></div>
+            <div><span class="k">userPrompt:</span> <span class="v">"Create a buy button"</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPEC -->
+  <section id="implementation" class="section-block">
+    <div class="layout-container">
+      <div class="eyebrow reveal"><span class="eyebrow-dot"></span>Technical implementation</div>
+      <div class="layout-split layout-split--wide reveal">
+        <div class="text-group">
+          <h2>Format and flow<br>of current runtime</h2>
+          <p>The parser reads <code>[component]</code>, <code>[context]</code>, sections starting with <code>@</code>, and properties as <code>- key: value</code>. During parse, it converts arrays, booleans, and numbers before assembling the final prompt.</p>
+          <div class="token-row">
+            <span class="token-chip">@governance</span>
+            <span class="token-chip">@logic-constraints</span>
+            <span class="token-chip">[component]</span>
+            <span class="token-chip">[context]</span>
+            <span class="token-chip">/api/prompts</span>
+            <span class="token-chip">/api/generate-prompt</span>
+            <span class="token-chip">/api/resolve-debug</span>
+          </div>
+          <div class="link-stack">
+            <a href="https://github.com/mikaelcarrara/prompt-sheet/blob/main/README.md" target="_blank" class="link-row">Technical guide in README <span class="link-meta">GitHub →</span></a>
+            <a href="https://github.com/mikaelcarrara/prompt-sheet/blob/main/src/prompt-resolver.js" target="_blank" class="link-row">PromptResolver <span class="link-meta">GitHub →</span></a>
+            <a href="https://github.com/mikaelcarrara/prompt-sheet/blob/main/src/demo-server.js" target="_blank" class="link-row">Demo Server + APIs <span class="link-meta">GitHub →</span></a>
+            <a href="https://github.com/mikaelcarrara/prompt-sheet/blob/main/examples/components/Button.prompt" target="_blank" class="link-row">.prompt example <span class="link-meta">GitHub →</span></a>
+          </div>
+        </div>
+        <div class="panel-surface align-start">
+          <pre><span class="ck">const</span> <span class="cx">resolver</span> = <span class="ck">new</span> <span class="cf">PromptResolver</span>(<span class="cv">'.'</span>)
+<span class="ck">const</span> <span class="cx">prompt</span> = <span class="ck">await</span> <span class="cx">resolver</span>.<span class="cf">generatePrompt</span>(
+  <span class="cv">'examples/components/Button.jsx'</span>,
+  <span class="cv">'\"Buy\" button with aria-label=\"Buy\", visible focus, and AA contrast'</span>
+)</pre>
+        </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features" class="section-block">
+    <div class="layout-container">
+      <div class="eyebrow reveal"><span class="eyebrow-dot"></span>Reference implementation</div>
+      <div class="grid-3 framed-grid reveal">
+        <div class="content-card">
+          <h4>Core</h4>
+          <ul class="dash-list">
+            <li>Per-directory cache using Map</li>
+            <li>Read global.prompt via inheritance</li>
+            <li>Read local .prompt files</li>
+          </ul>
+        </div>
+        <div class="content-card">
+          <h4>API</h4>
+          <ul class="dash-list">
+            <li><code>POST /api/generate-prompt</code></li>
+            <li><code>GET /api/prompts/:filePath?</code></li>
+            <li><code>POST /api/resolve-debug</code></li>
+          </ul>
+        </div>
+        <div class="content-card">
+          <h4>Runtime</h4>
+          <ul class="dash-list">
+            <li>Node.js 14+</li>
+            <li>Express 4.18</li>
+            <li>Page served at /</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESOURCES -->
+  <section id="resources" class="section-block">
+    <div class="layout-container">
+      <div class="eyebrow reveal"><span class="eyebrow-dot"></span>Resources and community</div>
+      <div class="grid-2 framed-grid reveal">
+        <div class="content-card">
+          <h4>Documentation</h4>
+          <ul class="link-list">
+            <li><a href="https://github.com/mikaelcarrara/prompt-sheet/blob/main/src/demo-server.js" target="_blank" class="link-row">Demo API <span class="link-meta link-meta--express">Express</span></a></li>
+            <li><a href="https://github.com/mikaelcarrara/prompt-sheet/blob/main/README.md" target="_blank" class="link-row">Project README <span class="link-meta link-meta--github">GitHub</span></a></li>
+            <li><a href="https://github.com/mikaelcarrara/prompt-sheet/blob/main/src/prompt-resolver.js" target="_blank" class="link-row">src/prompt-resolver.js <span class="link-meta link-meta--core">Core</span></a></li>
+            <li><a href="https://github.com/mikaelcarrara/prompt-sheet/blob/main/tests/test-resolver.js" target="_blank" class="link-row">tests/test-resolver.js <span class="link-meta link-meta--tests">Tests</span></a></li>
+          </ul>
+        </div>
+        <div class="content-card">
+          <h4>Community</h4>
+          <ul class="link-list">
+            <li><a href="https://github.com/mikaelcarrara/prompt-sheet/discussions" target="_blank" class="link-row">Discussions <span class="link-meta link-meta--github">GitHub</span></a></li>
+            <li><a href="https://github.com/mikaelcarrara/prompt-sheet/issues" target="_blank" class="link-row">Issues <span class="link-meta link-meta--tracker">Tracker</span></a></li>
+            <li><a href="https://github.com/mikaelcarrara/prompt-sheet/pulls" target="_blank" class="link-row">Pull Requests <span class="link-meta link-meta--review">Review</span></a></li>
+            <li><a href="https://github.com/mikaelcarrara/prompt-sheet" target="_blank" class="link-row">Contributing via GitHub <span class="link-meta link-meta--flow">Flow</span></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="cta" class="section-block section-block--plain-end">
+    <div class="layout-container">
+      <div class="callout reveal">
+        <div class="text-group">
+          <h2>Each component governs<br>its own intelligence.</h2>
+          <p>Start with <code>global.prompt</code>, evolve with local files in <code>examples/components</code>, and validate the flow via the generation endpoint.</p>
+        </div>
+        <div class="action-stack">
+          <a href="https://github.com/mikaelcarrara/prompt-sheet" target="_blank" class="button button--solid">View on GitHub</a>
+          <a href="https://github.com/mikaelcarrara/prompt-sheet/blob/main/README.md" target="_blank" class="button button--ghost">Read specification →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <span class="footer-meta">© 2026 <a href="https://github.com/mikaelcarrara" target="_blank">Mikael Carrara</a>. Released under the <a href="https://github.com/mikaelcarrara/prompt-sheet/blob/main/LICENSE" target="_blank">MIT License</a>.</span>
+</footer>
+
+<script>
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('in'), i * 60);
+      obs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

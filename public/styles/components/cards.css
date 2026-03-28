@@ -1,0 +1,40 @@
+.content-card {
+  background: var(--color-surface-strong);
+  padding: var(--space-36);
+}
+
+.content-card--lg {
+  padding: var(--space-40) var(--space-36);
+}
+
+.content-card h4 {
+  font-size: var(--font-size-10);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-lg);
+  text-transform: uppercase;
+  color: var(--color-text-soft);
+  margin-bottom: var(--space-20);
+}
+
+.content-card h3 {
+  font-size: var(--font-size-24);
+  font-weight: var(--font-weight-light);
+  line-height: var(--line-height-snug);
+  margin-bottom: var(--space-12);
+}
+
+.content-card p {
+  font-size: var(--font-size-12);
+  color: var(--color-text-mid);
+  line-height: var(--line-height-relaxed);
+  margin-bottom: var(--space-24);
+}
+
+.item-kicker {
+  display: block;
+  font-size: var(--font-size-10);
+  letter-spacing: var(--letter-spacing-2xl);
+  text-transform: uppercase;
+  color: var(--color-text-subtle);
+  margin-bottom: var(--space-20);
+}

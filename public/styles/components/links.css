@@ -1,0 +1,47 @@
+.link-stack {
+  border-top: 1px solid var(--color-border-soft);
+  padding-top: var(--space-4);
+}
+
+.link-list {
+  list-style: none;
+}
+
+.link-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-12) var(--space-0);
+  border-bottom: 1px solid var(--color-border-soft);
+  text-decoration: none;
+  color: var(--color-text-strong);
+  font-size: var(--font-size-12);
+  transition: color var(--transition-fast) var(--easing-standard);
+}
+
+.link-list .link-row {
+  padding: var(--space-11) var(--space-0);
+  font-size: var(--font-size-125);
+}
+
+.link-row:hover {
+  color: var(--color-text-mid);
+}
+
+.link-stack .link-row:last-child,
+.link-list li:last-child .link-row {
+  border-bottom: none;
+}
+
+.link-meta {
+  font-size: var(--font-size-10);
+  letter-spacing: var(--letter-spacing-sm);
+}
+
+.link-meta--express { color: var(--color-link-meta-express); }
+.link-meta--github { color: var(--color-link-meta-github); }
+.link-meta--core { color: var(--color-link-meta-core); }
+.link-meta--tests { color: var(--color-link-meta-tests); }
+.link-meta--tracker { color: var(--color-link-meta-tracker); }
+.link-meta--review { color: var(--color-link-meta-review); }
+.link-meta--flow { color: var(--color-link-meta-flow); }

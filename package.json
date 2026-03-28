@@ -1,0 +1,30 @@
+{
+  "name": "promptsheet-dev",
+  "version": "1.0.0",
+  "description": "Proximity-Based AI Governance — Cascading Prompt Sheets (CPS)",
+  "main": "src/prompt-resolver.js",
+  "scripts": {
+    "start": "node src/demo-server.js",
+    "dev": "node src/demo-server.js",
+    "test": "node tests/test-resolver.js",
+    "cps": "node src/cli.js"
+  },
+  "keywords": [
+    "ai",
+    "governance",
+    "prompt",
+    "cascading",
+    "cps"
+  ],
+  "author": "PromptSheet.dev",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "bin": {
+    "cps": "./src/cli.js"
+  }
+}

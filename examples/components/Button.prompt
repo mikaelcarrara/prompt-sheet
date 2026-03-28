@@ -1,0 +1,20 @@
+# Button.prompt
+[component: action-button]
+[context: e-commerce-checkout]
+
+@governance
+- tone: "urgent and direct"
+- restricted-terms: ["cheap", "free", "click here"]
+- allowed-actions: ["buy", "add to cart", "checkout"]
+- accessibility-check: "always validate aria-label"
+
+@logic-constraints
+- max-characters: 30
+- dynamic-state: "if state is 'loading', show spinner"
+- hover-effect: "subtle elevation increase"
+
+@styling
+- variant: ["primary", "secondary", "outline"]
+- size: ["sm", "md", "lg"]
+- border-radius: "rounded-lg"
+- transition: "all duration-200 ease-in-out"

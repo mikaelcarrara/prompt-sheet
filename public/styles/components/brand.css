@@ -1,0 +1,27 @@
+.brand-link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  text-decoration: none;
+}
+
+.brand-mark {
+  display: none;
+}
+
+.brand-title {
+  margin-top: calc(var(--space-3) * -1);
+  font-size: var(--font-size-13);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-strong);
+  display: block;
+  line-height: var(--line-height-relaxed);
+}
+
+.brand-subtitle {
+  display: block;
+  font-size: var(--font-size-10);
+  color: var(--color-text-soft);
+  letter-spacing: var(--letter-spacing-sm);
+  line-height: var(--line-height-tight);
+}

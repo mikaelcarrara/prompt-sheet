@@ -1,0 +1,120 @@
+:root {
+  --font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif;
+  --font-family-serif: 'Cormorant', Georgia, serif;
+  --font-family-mono: 'Geist Mono', monospace;
+
+  --color-surface-strong: #0e0e0f;
+  --color-surface-mid: #141416;
+  --color-surface-soft: #1a1a1d;
+  --color-surface-elevated: #222226;
+  --color-border-soft: #2a2a2e;
+  --color-border-mid: #333338;
+  --color-text-strong: #e8e8e4;
+  --color-text-mid: #a0a09c;
+  --color-text-soft: #606060;
+  --color-text-subtle: #3a3a3e;
+
+  --color-code-comment: #404048;
+  --color-code-keyword: #7b8eff;
+  --color-code-value: #e8b84b;
+  --color-code-function: #6ec99a;
+  --color-code-tag: #b07ef8;
+  --color-code-text: #b0b0ac;
+
+  --color-link-meta-express: #7b8eff;
+  --color-link-meta-github: #6f7ff0;
+  --color-link-meta-core: #5f73e6;
+  --color-link-meta-tests: #4f67dc;
+  --color-link-meta-tracker: #3f5bd2;
+  --color-link-meta-review: #2f4fc8;
+  --color-link-meta-flow: #2445bf;
+
+  --color-status-positive: #4a9a68;
+
+  --color-nav-rgb: 14 14 15;
+  --alpha-nav-bg: 0.92;
+  --alpha-watermark: 0.02;
+  --color-white-rgb: 255 255 255;
+
+  --radius-xs: 2px;
+  --radius-sm: 3px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --radius-round: 999px;
+
+  --space-0: 0;
+  --space-2: 2px;
+  --space-3: 3px;
+  --space-4: 4px;
+  --space-5: 5px;
+  --space-6: 6px;
+  --space-8: 8px;
+  --space-10: 10px;
+  --space-11: 11px;
+  --space-12: 12px;
+  --space-13: 13px;
+  --space-14: 14px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-28: 28px;
+  --space-32: 32px;
+  --space-36: 36px;
+  --space-40: 40px;
+  --space-56: 56px;
+  --space-64: 64px;
+  --space-80: 80px;
+  --space-88: 88px;
+  --space-100: 100px;
+
+  --size-dot-sm: 5px;
+  --size-nav-height: 56px;
+  --size-container-max: 1040px;
+
+  --font-size-10: 10px;
+  --font-size-11: 11px;
+  --font-size-12: 12px;
+  --font-size-13: 13px;
+  --font-size-125: 12.5px;
+  --font-size-135: 13.5px;
+  --font-size-24: 24px;
+  --font-size-title-display-min: 32px;
+  --font-size-title-display-fluid: 4.2vw;
+  --font-size-title-display-max: 60px;
+  --font-size-title-emphasis-min: 30px;
+  --font-size-title-emphasis-fluid: 4vw;
+  --font-size-title-emphasis-max: 52px;
+  --font-size-snippet: 11.5px;
+
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+
+  --line-height-tight: 0.98;
+  --line-height-heading: 1.05;
+  --line-height-display: 1.06;
+  --line-height-compact: 1.1;
+  --line-height-snug: 1.15;
+  --line-height-body: 1.7;
+  --line-height-relaxed: 1.8;
+  --line-height-loose: 1.85;
+
+  --letter-spacing-tight: -0.05em;
+  --letter-spacing-xs: 0.04em;
+  --letter-spacing-sm: 0.06em;
+  --letter-spacing-md: 0.08em;
+  --letter-spacing-lg: 0.1em;
+  --letter-spacing-xl: 0.12em;
+  --letter-spacing-2xl: 0.14em;
+
+  --transition-fast: 0.15s;
+  --transition-reveal: 0.5s;
+  --easing-standard: ease;
+
+  --blur-nav: 16px;
+  --translate-reveal-y: 12px;
+  --rotate-watermark: -10deg;
+  --watermark-shift-x: -20px;
+  --translate-half: -50%;
+  --mix-solid-hover: 86%;
+}

@@ -1,0 +1,112 @@
+.topbar {
+  position: fixed;
+  inset: var(--space-0) var(--space-0) auto var(--space-0);
+  z-index: calc(var(--space-100));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-0) var(--space-40);
+  height: var(--size-nav-height);
+  background: rgb(var(--color-nav-rgb) / var(--alpha-nav-bg));
+  backdrop-filter: blur(var(--blur-nav));
+  -webkit-backdrop-filter: blur(var(--blur-nav));
+  border-bottom: 1px solid var(--color-border-soft);
+}
+
+.page-shell {
+  padding-top: var(--size-nav-height);
+}
+
+.section-block {
+  padding: var(--space-88) var(--space-40);
+  border-bottom: 1px solid var(--color-border-soft);
+}
+
+.section-block--lead {
+  padding-top: var(--space-100);
+}
+
+.section-block--plain-end {
+  border-bottom: none;
+}
+
+.layout-container {
+  max-width: var(--size-container-max);
+  margin: var(--space-0) auto;
+}
+
+.layout-split {
+  display: grid;
+  grid-template-columns: minmax(var(--space-0), 1fr) minmax(var(--space-0), 1fr);
+  gap: var(--space-64);
+  align-items: center;
+}
+
+.layout-split--wide {
+  gap: var(--space-56);
+  align-items: start;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(var(--space-0), 1fr));
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: minmax(var(--space-0), 1fr) minmax(var(--space-0), 1fr);
+}
+
+.framed-grid {
+  gap: calc(var(--space-0) + 1px);
+  background: var(--color-border-soft);
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.align-start {
+  align-self: start;
+}
+
+@media (max-width: 860px) {
+  .topbar {
+    padding: var(--space-0) var(--space-20);
+  }
+
+  .menu-inline li:nth-child(-n+2) {
+    display: none;
+  }
+
+  .section-block {
+    padding: var(--space-64) var(--space-20);
+  }
+
+  .section-block--lead {
+    padding-top: var(--space-80);
+  }
+
+  .layout-split,
+  .grid-3,
+  .grid-2 {
+    grid-template-columns: minmax(var(--space-0), 1fr);
+  }
+
+  .panel-surface--secondary {
+    display: none;
+  }
+
+  .callout {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: var(--space-40) var(--space-32);
+  }
+
+  .action-stack {
+    align-items: flex-start;
+  }
+
+  footer {
+    padding: var(--space-24) var(--space-20);
+  }
+}

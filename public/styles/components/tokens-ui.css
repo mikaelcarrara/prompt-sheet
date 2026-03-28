@@ -1,0 +1,15 @@
+.token-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-6);
+  margin-bottom: var(--space-32);
+}
+
+.token-chip {
+  font-size: var(--font-size-11);
+  padding: var(--space-5) var(--space-10);
+  border: 1px solid var(--color-border-mid);
+  border-radius: var(--radius-md);
+  color: var(--color-text-mid);
+  background: var(--color-surface-soft);
+}
