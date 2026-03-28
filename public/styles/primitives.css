@@ -1,0 +1,42 @@
+.u-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-10);
+}
+
+.u-inline {
+  display: flex;
+  align-items: center;
+  gap: var(--space-10);
+  flex-wrap: wrap;
+}
+
+.u-grid {
+  display: grid;
+  gap: var(--space-10);
+}
+
+.u-grid-cols-3 {
+  grid-template-columns: repeat(3, minmax(var(--space-0), 1fr));
+}
+
+.u-grid-cols-2 {
+  grid-template-columns: minmax(var(--space-0), 1fr) minmax(var(--space-0), 1fr);
+}
+
+.u-framed {
+  gap: calc(var(--space-0) + 1px);
+  background: var(--color-border-soft);
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.u-align-start {
+  align-self: start;
+}
+
+.u-container {
+  max-width: var(--size-container-max);
+  margin: var(--space-0) auto;
+}

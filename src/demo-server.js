@@ -6,7 +6,8 @@ const { estimateTokens, enforceTokenLimit } = require('./metrics');
 
 const app = express();
 const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
-const resolver = new PromptResolver(__dirname);
+const projectRoot = path.join(__dirname, '..');
+const resolver = new PromptResolver(projectRoot);
 
 app.use(express.static('public', { index: false }));
 app.use(express.json());
@@ -115,7 +116,7 @@ function startServer(initialPort) {
         });
         server.listen(p, () => {
             console.log(`🚀 PromptSheet.dev Demo Server running at http://localhost:${p}`);
-            console.log('📁 Root directory:', __dirname);
+            console.log('📁 Root directory:', projectRoot);
         });
     }
     attempt();
